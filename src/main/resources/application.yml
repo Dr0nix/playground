@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 1029
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: never
+  banner:
+    location: classpath:banner.txts
+
+mybatis:
+  mapper-locations: classpath*:sql/**/*.xml
+  type-aliases-package: playground.model.dto
+  configuration:
+    map-underscore-to-camel-case: true
+
+app:
+  version: "0.0.1"
