@@ -16,7 +16,7 @@ public class GotoPageSvc {
     public String redirectToHome() {
         log.info("redirectToHome");
 
-        return "redirect:/home";
+        return "redirect:/gotopage/6";
     }
 
     public String goToPage(Long menuNo) {
@@ -37,6 +37,7 @@ public class GotoPageSvc {
 
         String pageUrl = url + param;
 
-        return pageUrl;
+        log.info("[GOTO PAGE] : {}로 이동합니다", menuNo);
+        return "forward:" + pageUrl;
     }
 }
