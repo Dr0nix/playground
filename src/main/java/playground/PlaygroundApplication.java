@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@MapperScan
 public class PlaygroundApplication {
 
 	public static void main(String[] args)  {
