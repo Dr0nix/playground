@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <title layout:fragment="title">PLAYGROUND</title>
+    <style>
+        body{margin:0;background:#0f172a;color:#e5e7eb;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans KR","Malgun Gothic",sans-serif;}
+        .layout{display:flex;min-height:100vh}
+        .main{flex:1;padding:28px}
+        .card{background:#0b1220;border:1px solid #0b2130;border-radius:14px;padding:20px}
+    </style>
+</head>
+<body>
+<div class="layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <main class="main" layout:fragment="content">
+        <div class="card">기본 레이아웃</div>
+    </main>
+</div>
+</body>
+</html>
