@@ -13,17 +13,17 @@ public class GotoPageCtl {
     private final GotoPageSvc svc;
 
     @GetMapping("/")
-    public String redirectToHome() {
-        return svc.redirectToHome();
+    public String redirectToLogin() {
+        return svc.redirectToLogin();
     }
 
-    @GetMapping("/loginOrigin")
-    public String goToHome() {
-        return "default-login";
+    @GetMapping("/signup")
+    public String gotoSignup() {
+        return svc.gotoSignup();
     }
 
     @GetMapping("/gotopage/{menuNo}")
-    public String gptoPage(@PathVariable Long menuNo) {
+    public String gotoPage(@PathVariable("menuNo") Long menuNo) {
         return svc.goToPage(menuNo);
     }
 }

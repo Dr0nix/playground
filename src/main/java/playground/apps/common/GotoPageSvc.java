@@ -13,10 +13,22 @@ import playground.model.repository.MenuRepository;
 public class GotoPageSvc {
     private final MenuRepository menuRepo;
 
+    public String redirectToLogin() {
+        log.info("redirectToLogin");
+
+        return "login";
+    }
+
     public String redirectToHome() {
         log.info("redirectToHome");
 
-        return "redirect:/gotopage/6";
+        return "home";
+    }
+
+    public String gotoSignup() {
+        log.info("gotoSignup");
+
+        return "signup";
     }
 
     public String goToPage(Long menuNo) {
@@ -37,7 +49,7 @@ public class GotoPageSvc {
 
         String pageUrl = url + param;
 
-        log.info("[GOTO PAGE] : {}로 이동합니다", menuNo);
-        return "forward:" + pageUrl;
+        log.info("[GOTO PAGE] : {}(으)로 이동합니다", pageUrl);
+        return pageUrl;
     }
 }
