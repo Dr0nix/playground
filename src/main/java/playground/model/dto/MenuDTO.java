@@ -3,10 +3,12 @@ package playground.model.dto;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Builder;
+import lombok.Data;
 import playground.enums.MenuType;
 
 import java.time.LocalDateTime;
 
+@Data
 public class MenuDTO {
     private Long menuNo;
     private String menuNm;
