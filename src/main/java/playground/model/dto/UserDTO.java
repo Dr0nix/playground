@@ -2,6 +2,7 @@ package playground.model.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import playground.model.entity.plain.User;
 
 import java.time.LocalDateTime;
 
@@ -27,5 +28,34 @@ public class UserDTO {
         this.createdAt = createdAt;
         this.modifiedBy = modifiedBy;
         this.modifiedAt = modifiedAt;
+    }
+
+    public UserDTO() {
+    }
+
+    public static UserDTO fromUser(User user) {
+        return UserDTO.builder()
+                .userNm(user.getUserNm())
+                .userEmail(user.getUserEmail())
+                .userPw(user.getUserPw())
+                .useYn(user.getUseYn())
+                .createdBy(user.getCreatedBy())
+                .createdAt(user.getCreatedAt())
+                .modifiedBy(user.getModifiedBy())
+                .modifiedAt(user.getModifiedAt())
+                .build();
+    }
+
+    public static User toUser(UserDTO userDTO) {
+        return User.builder()
+                .userNm(userDTO.getUserNm())
+                .userEmail(userDTO.getUserEmail())
+                .userPw(userDTO.getUserPw())
+                .useYn(userDTO.getUseYn())
+                .createdBy(userDTO.getCreatedBy())
+                .createdAt(userDTO.getCreatedAt())
+                .modifiedBy(userDTO.getModifiedBy())
+                .modifiedAt(userDTO.getModifiedAt())
+                .build();
     }
 }

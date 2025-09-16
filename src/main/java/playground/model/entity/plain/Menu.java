@@ -2,6 +2,7 @@ package playground.model.entity.plain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import playground.enums.MenuType;
@@ -9,8 +10,7 @@ import playground.model.entity.generic.AuditableEntity;
 
 @Entity
 @Table(name = "pg_menu", schema = "common")
-@Getter
-@RequiredArgsConstructor
+@Data
 public class Menu extends AuditableEntity {
 
     @Id
@@ -49,5 +49,8 @@ public class Menu extends AuditableEntity {
         this.menuUrl = menuUrl;
         this.menuParam = menuParam;
         this.useYn = useYn;
+    }
+
+    public Menu() {
     }
 }

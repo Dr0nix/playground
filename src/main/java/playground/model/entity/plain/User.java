@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import playground.model.entity.generic.AuditableEntity;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "pg_user", schema = "common")
 @Getter
@@ -30,10 +32,14 @@ public class User extends AuditableEntity {
     private Boolean useYn;
 
     @Builder
-    public User(String userNm, String userEmail, String userPw, Boolean useYn) {
+    public User(String userNm, String userEmail, String userPw, Boolean useYn, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
         this.userNm = userNm;
         this.userEmail = userEmail;
         this.userPw = userPw;
         this.useYn = useYn;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.modifiedAt = modifiedAt;
+        this.modifiedBy = modifiedBy;
     }
 }
