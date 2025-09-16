@@ -1,0 +1,123 @@
+/* ===== Theme (White + Purple) ===== */
+:root{
+    --bg:#f6f7fd;            /* page bg */
+    --panel:#ffffff;         /* card/sidebar bg */
+    --text:#1f2937;          /* main text */
+    --muted:#6b7280;         /* secondary text */
+    --border:#e5e7eb;        /* borders */
+    --accent:#7c3aed;        /* purple */
+    --accent-dark:#6d28d9;
+    --ring:rgba(124,58,237,.18);
+}
+
+/* ===== Base ===== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    margin:0;
+    background:
+            radial-gradient(60% 40% at 85% 10%, rgba(124,58,237,.10), transparent 60%),
+            radial-gradient(50% 40% at 10% 90%, rgba(124,58,237,.08), transparent 60%),
+            var(--bg);
+    color:var(--text);
+    font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans KR","Malgun Gothic",sans-serif;
+}
+a{ color:var(--accent); }
+
+/* ===== Layout (공통 레이아웃) ===== */
+.layout{display:flex; min-height:100vh}
+.main{flex:1; padding:28px}
+.card{
+    width:min(520px,92vw);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:26px;
+    box-shadow:0 20px 40px rgba(124,58,237,.08), 0 10px 24px rgba(0,0,0,.06);
+}
+
+/* ===== Brand / Logo ===== */
+.brand{
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    margin:6px 8px 18px;
+    color:#4c1d95; font-weight:800; letter-spacing:.3px;
+}
+.brand #logo{ max-width:100%; height:auto; display:block; }
+
+/* ===== Sidebar ===== */
+.sb{
+    width:260px; background:var(--panel); color:var(--text);
+    padding:20px 16px; border-right:1px solid var(--border);
+    min-height:100vh; position:sticky; top:0;
+    box-shadow:0 8px 24px rgba(124,58,237,.05);
+}
+.sb .title{
+    font-size:12px; color:var(--muted);
+    margin:16px 8px 6px; text-transform:uppercase; letter-spacing:.08em;
+}
+.sb ul{list-style:none; padding:0; margin:6px 0}
+.sb a{
+    display:block; padding:10px 12px; border-radius:10px;
+    color:var(--text); text-decoration:none; transition:background .15s ease;
+}
+.sb a:hover{background:rgba(124,58,237,.10)}
+.sb a.active{background:rgba(124,58,237,.14); outline:2px solid var(--ring)}
+
+/* Toggleable section headers */
+.sb .title[role="button"]{
+    cursor:pointer; user-select:none; padding:10px 12px; border-radius:10px;
+}
+.sb .title[role="button"]:hover{ background:rgba(124,58,237,.10) }
+.sb .title::after{
+    content:'▾'; float:right; color:var(--muted); transition:transform .2s ease;
+}
+.sb .title[aria-expanded="false"]::after{ transform:rotate(-90deg) }
+
+/* Collapsible menus */
+.sb ul.menu-list{
+    list-style:none; padding:0; margin:6px 0 10px;
+    overflow:hidden; max-height:400px;
+    transition:max-height .25s ease, margin .2s ease;
+}
+.sb ul.menu-list.is-collapsed{ max-height:0; margin:0 }
+
+/* ===== Forms / Buttons (로그인/폼 공통) ===== */
+.wrap{min-height:100%; display:grid; place-items:center; padding:28px}
+.card--form{
+    width:min(560px,92vw);
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:16px; padding:40px 36px;
+    box-shadow:0 12px 30px rgba(17,24,39,.08);
+}
+.field{margin-top:14px}
+.label{font-size:13px; color:var(--muted); margin:0 0 6px 2px}
+.input{
+    width:100%; padding:12px 14px; border:1px solid var(--border);
+    border-radius:10px; background:#fff; color:var(--text);
+    outline:none; transition:border-color .15s, box-shadow .15s;
+}
+.input::placeholder{color:#9ca3af}
+.input:focus{border-color:#c7d2fe; box-shadow:0 0 0 4px var(--ring)}
+.hint{font-size:12px; color:var(--muted); margin-top:6px}
+.row{display:grid; gap:12px; grid-template-columns:1fr 1fr}
+
+.actions{display:grid; gap:10px; margin-top:18px}
+.btn{
+    width:100%; padding:12px 14px; border:0; border-radius:10px; cursor:pointer;
+    color:#fff; font-weight:800; letter-spacing:.2px;
+    background:linear-gradient(135deg, var(--accent), var(--accent-dark));
+    box-shadow:0 10px 20px rgba(124,58,237,.25);
+    transition:filter .15s, transform .06s;
+}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.6; cursor:not-allowed; box-shadow:none}
+.btn.secondary{
+    background:#fff; color:var(--accent); border:1px solid #d9d6fe; box-shadow:none;
+}
+.btn.secondary:hover{background:#f5f3ff}
+
+.msg{margin-top:8px; font-size:14px}
+.msg.error{color:#b91c1c}
+.msg.ok{color:#15803d}
+.foot{margin-top:16px; text-align:center; color:var(--muted); font-size:13px}
