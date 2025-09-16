@@ -12,16 +12,12 @@
     <div class="card">
 
         <div class="brand">
-            <a th:href="@{/gotopage/{no}(no=6)}" aria-label="홈으로">
-                <img id="logo" th:src="@{/img/horizontal_logo.png}" alt="logo" style="display:block;"/>
-            </a>
+            <img id="logo" th:src="@{/img/horizontal_logo.png}" alt="logo" style="display:block;"/>
         </div>
 
         <h2 style="margin:0 0 4px; font-size:22px">회원가입</h2>
 
-        <!-- 처리 URL은 상황에 맞게 변경하세요: POST /signup -->
-        <form th:action="@{/signup}" method="post" autocomplete="off" id="signupForm">
-            <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <form id="signupForm">
 
             <div class="field">
                 <label class="label" for="su-name">이름</label>
@@ -43,7 +39,7 @@
                     <input class="input" id="su-password2" name="passwordConfirm" type="password" placeholder="비밀번호 확인" required minlength="8" />
                 </div>
             </div>
-            <p class="hint">비밀번호는 대문자, 소문자, 숫자가 모두 포함된 10자리 이상의 문자열이어야 합니다.</p>
+            <p class="hint">비밀번호는 대문자, 소문자, 숫자가 모두 포함된 8자리 이상의 문자열이어야 합니다.</p>
 
 
             <div id="pwMsg" class="msg" aria-live="polite"></div>
@@ -58,5 +54,6 @@
 
 <script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
 <script th:src="@{/js/common/signup.js}"></script>
+
 </body>
 </html>
