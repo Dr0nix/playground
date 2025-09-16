@@ -1,23 +1,28 @@
-<!-- 문서 골격 없이 fragment 요소만 두는 게 가장 안전 -->
-<div th:fragment="sidebar"
-     style="width:240px;background:#111827;color:#e5e7eb;padding:18px 14px;border-right:1px solid #0b2130;min-height:100vh;">
-    <div style="font-weight:700;margin:4px 8px 14px;color:#fff;">PLAYGROUND</div>
+<!-- 문서 골격 없이 fragment 요소만 -->
+<aside th:fragment="sidebar" class="sb">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
 
-    <div style="font-size:12px;color:#9ca3af;margin:14px 10px 6px;text-transform:uppercase;letter-spacing:.08em">퀴즈</div>
-    <ul style="list-style:none;padding:0;margin:8px 0 0 0">
-        <li><a href="#" style="display:block;padding:8px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none;">자바 메서드</a></li>
-        <li><a href="#" style="display:block;padding:8px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none;">정보처리기사</a></li>
+    <div class="brand">
+        <a th:href="@{/gotopage/{no}(no=6)}" aria-label="홈으로">
+            <img id="logo" th:src="@{/img/horizontal_logo.png}" alt="logo" style="display:block;"/>
+        </a>
+    </div>
+
+    <div class="title" role="button" aria-controls="menu-quiz" aria-expanded="true">퀴즈</div>
+    <ul id="menu-quiz" class="menu-list">
+        <li><a href="#">자바 메서드</a></li>
+        <li><a href="#">정보처리기사</a></li>
     </ul>
 
-    <div style="font-size:12px;color:#9ca3af;margin:14px 10px 6px;text-transform:uppercase;letter-spacing:.08em">공부</div>
-    <ul style="list-style:none;padding:0;margin:8px 0 0 0">
-        <li><a href="#" style="display:block;padding:8px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none;">개발일지</a></li>
-        <li><a href="#" style="display:block;padding:8px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none;">학습기록</a></li>
+    <div class="title" role="button" aria-controls="menu-study" aria-expanded="false">공부</div>
+    <ul id="menu-study" class="menu-list is-collapsed">
+        <li><a href="#">개발일지</a></li>
+        <li><a href="#">학습기록</a></li>
     </ul>
 
-    <div style="font-size:12px;color:#9ca3af;margin:14px 10px 6px;text-transform:uppercase;letter-spacing:.08em">기타</div>
-    <ul style="list-style:none;padding:0;margin:8px 0 0 0">
-        <li><a href="#" style="display:block;padding:8px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none;">담배 STT</a></li>
-        <li><a href="#" style="display:block;padding:8px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none;">ADMIN</a></li>
+    <div class="title" role="button" aria-controls="menu-etc" aria-expanded="false">기타 서비스</div>
+    <ul id="menu-etc" class="menu-list is-collapsed">
+        <li><a href="#">담배 STT</a></li>
+        <li><a href="#">ADMIN</a></li>
     </ul>
-</div>
+</aside>
