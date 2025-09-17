@@ -22,7 +22,7 @@ public class GotoPageSvc {
     public String redirectToHome() {
         log.info("redirectToHome");
 
-        return "home";
+        return "redirect:/gotopage/6";
     }
 
     public String gotoSignup() {

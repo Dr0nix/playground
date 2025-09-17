@@ -1,14 +1,32 @@
+let DEFAULT_URL = '/signup'
+
 $(document).ready(() => {
     setEventListner();
 });
 
 function gotoLoginPage() {
     console.log('go back!!')
-    location.href = '/';
+    location.href = '/login-page';
 }
 
-function submit() {
+function signup() {
+    var userNm = $('#su-name').val();
+    var userEmail = $('#su-email').val();
+    var userPw = $('#su-password').val();
 
+    $.ajax({
+        url: DEFAULT_URL,
+        type: 'POST',
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify({ userNm, userEmail, userPw }),
+        success: () => {
+            alert('성공적으로 가입되었습니다');
+            location.href = '/';
+        },
+        error: (xhr) => {
+          alert('가입에 실패하였습니다.');
+        }
+    });
 }
 
 function validateEveryThing() {
@@ -70,7 +88,7 @@ function validatePassword() {
 function setEventListner() {
     $('#back').click(gotoLoginPage);
 
-    $('#signupSubmit').click(submit);
+    $('#signupSubmit').click(signup);
 
     $('#su-name').on('change', validateEveryThing);
     $('#su-email').on('change', validateEveryThing);

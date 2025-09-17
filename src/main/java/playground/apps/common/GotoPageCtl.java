@@ -13,11 +13,16 @@ public class GotoPageCtl {
     private final GotoPageSvc svc;
 
     @GetMapping("/")
+    public String redirectToHome() {
+        return svc.redirectToHome();
+    }
+
+    @GetMapping("/login-page")
     public String redirectToLogin() {
         return svc.redirectToLogin();
     }
 
-    @GetMapping("/signup")
+    @GetMapping("/signup-page")
     public String gotoSignup() {
         return svc.gotoSignup();
     }
