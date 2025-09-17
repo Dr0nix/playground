@@ -17,15 +17,15 @@
         </div>
 
         <!-- 로그인 폼 -->
-        <form>
+        <form  th:action="@{/login}" method="post">
             <div class="field">
-                <label class="label" for="username">아이디</label>
-                <input class="input" id="username" name="username" type="text" placeholder="아이디 입력" required autofocus />
+                <label class="label" for="userEmail">이메일</label>
+                <input class="input" id="userEmail" name="userEmail" type="text" placeholder="이메일 입력" required autofocus />
             </div>
 
             <div class="field">
-                <label class="label" for="password">비밀번호</label>
-                <input class="input" id="password" name="password" type="password" placeholder="비밀번호 입력" required />
+                <label class="label" for="userPw">비밀번호</label>
+                <input class="input" id="userPw" name="userPw" type="password" placeholder="비밀번호 입력" required />
             </div>
 
             <div class="actions">
@@ -37,5 +37,9 @@
         <div class="foot">© 2025 PLAYGROWN`D</div>
     </div>
 </div>
+
+<script th:if="${param.error}">
+    alert('로그인에 실패했습니다. 이메일/비밀번호를 확인해 주세요.');
+</script>
 </body>
 </html>

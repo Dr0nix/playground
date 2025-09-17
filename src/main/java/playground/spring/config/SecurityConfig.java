@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import playground.apps.common.LoginSvc;
 
 @Configuration
 @EnableWebSecurity
@@ -15,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig {
 
     @Bean
-    SecurityFilterChain security(HttpSecurity http) throws Exception {
+    SecurityFilterChain security(HttpSecurity http, LoginSvc loginSvc) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**","/js/**","/img/**","/favicon.ico", "/webjars/**").permitAll()
@@ -23,13 +24,16 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/signup").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/login-page")              // ← 내 페이지
-                        .loginProcessingUrl("/login")     // ← POST 처리 URL (폼 action과 동일)
-                        .defaultSuccessUrl("/gotopage/6", true) // 로그인 성공 후 이동
-                        .failureUrl("/login?error")       // 실패 시
+                .formLogin(f -> f
+                        .loginPage("/login-page")
+                        .loginProcessingUrl("/login")
+                        .usernameParameter("userEmail")   // 예: 이메일을 아이디로
+                        .passwordParameter("userPw")
+                        .defaultSuccessUrl("/gotopage/6", true)
+                        .failureUrl("/login-page?error")
                         .permitAll()
                 )
+                .userDetailsService(loginSvc)
                 .logout(l -> l.logoutUrl("/logout").logoutSuccessUrl("/login?logout"))
         // 필요 시 CSRF 조정
         //.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
