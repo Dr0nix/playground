@@ -103,19 +103,42 @@ a{ color:var(--accent); }
 
 .actions{display:grid; gap:10px; margin-top:18px}
 .btn{
-    width:100%; padding:12px 14px; border:0; border-radius:10px; cursor:pointer;
-    color:#fff; font-weight:800; letter-spacing:.2px;
-    background:linear-gradient(135deg, var(--accent), var(--accent-dark));
-    box-shadow:0 10px 20px rgba(124,58,237,.25);
+    width:100%;
+    padding:12px 14px;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:800;
+    letter-spacing:.2px;
+    text-align:center;                 /* 글자 중앙 정렬 */
     transition:filter .15s, transform .06s;
 }
-.btn:hover{filter:brightness(1.05)}
-.btn:active{transform:translateY(1px)}
-.btn:disabled{opacity:.6; cursor:not-allowed; box-shadow:none}
-.btn.secondary{
-    background:#fff; color:var(--accent); border:1px solid #d9d6fe; box-shadow:none;
+
+/* Primary (기본 보라 그RADIENT) */
+.btn.primary{
+    color:#fff;
+    background:linear-gradient(135deg, var(--accent), var(--accent-dark));
+    box-shadow:0 10px 20px rgba(124,58,237,.25);
 }
-.btn.secondary:hover{background:#f5f3ff}
+.btn.primary:hover{ filter:brightness(1.05); }
+.btn.primary:active{ transform:translateY(1px); }
+
+/* Secondary (화이트 톤) */
+.btn.secondary{
+    background:#fff;
+    color:var(--accent);
+    border:1px solid #d9d6fe;
+    box-shadow:none;
+    text-align:center;                 /* 보강: 중앙 정렬 */
+}
+.btn.secondary:hover{ background:#f5f3ff; }
+
+/* Disabled (공통) */
+.btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    box-shadow:none;
+}
 
 .msg{margin-top:8px; font-size:14px}
 .msg.error{color:#b91c1c}

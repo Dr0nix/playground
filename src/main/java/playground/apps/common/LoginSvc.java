@@ -23,7 +23,7 @@ public class LoginSvc implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUserEmail())
                 .password(user.getUserPw())
-                .authorities("ROLE_USER") // DB 역할/권한에 맞게 구성
+//                .authorities("ROLE_USER") // DB 역할/권한에 맞게 구성
                 .accountLocked(!user.getUseYn())
                 .build();
     }
