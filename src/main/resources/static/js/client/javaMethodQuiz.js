@@ -7,5 +7,5 @@ function setEventListener() {
         console.log('good')
         $('#introStage').addClass('hidden');
         $('#quizStage').removeClass('hidden');
-    })
+    });
 }
