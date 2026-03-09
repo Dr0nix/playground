@@ -2,6 +2,7 @@ package playground.apps.common;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import playground.enums.MenuType;
 import playground.model.entity.plain.Menu;
