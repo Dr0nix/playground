@@ -31,4 +31,19 @@
         WHERE
             1=1
     </select>
+
+    <select id="getConditionalQuizSet" parameterType="hashmap" resultType="playground.model.dto.JavaMethodQuizDTO">
+        SELECT
+            *
+        FROM
+            quiz.java_method
+        WHERE
+            1=1
+        <if test="difficulty != 'ALL'">
+            AND difficulty_cd = #{difficulty}
+        </if>
+        <if test="roundCount != 0">
+            LIMIT #{roundCount}
+        </if>
+    </select>
 </mapper>
