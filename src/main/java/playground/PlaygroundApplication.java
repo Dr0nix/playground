@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PlaygroundApplication {
 
 	public static void main(String[] args)  {
+		// dev 브랸치에서 배포 직전 취합
 		SpringApplication.run(PlaygroundApplication.class, args);
 	}
 
