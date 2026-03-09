@@ -12,5 +12,5 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     Optional<Menu> findByMenuNo(Long menuNo);
 
-    List<Menu> findByUseYnTrueOrderByMenuLvAscPrntNoAscMenuNoAsc();
+    List<Menu> findByUseYnTrueOrderByMenuLvAscPrntNoAscSortOrdAsc();
 }

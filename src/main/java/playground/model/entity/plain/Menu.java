@@ -38,8 +38,10 @@ public class Menu extends AuditableEntity {
 
     private Boolean useYn;
 
+    private Long sortOrd;
+
     @Builder
-    public Menu(Long menuNo, String menuNm, String menuDesc, int menuLv, Long prntNo, MenuType menuTp, String menuUrl, String menuParam, Boolean useYn) {
+    public Menu(Long menuNo, String menuNm, String menuDesc, int menuLv, Long prntNo, MenuType menuTp, String menuUrl, String menuParam, Boolean useYn, Long sortOrd) {
         this.menuNo = menuNo;
         this.menuNm = menuNm;
         this.menuDesc = menuDesc;
@@ -49,6 +51,7 @@ public class Menu extends AuditableEntity {
         this.menuUrl = menuUrl;
         this.menuParam = menuParam;
         this.useYn = useYn;
+        this.sortOrd = sortOrd;
     }
 
     public Menu() {
