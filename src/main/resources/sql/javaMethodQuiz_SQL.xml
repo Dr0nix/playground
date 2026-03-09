@@ -7,7 +7,7 @@
         SELECT
             COUNT(*)
         FROM
-            quiz.java_method
+            quiz.pg_java_method
         WHERE
             1=1
     </select>
@@ -16,7 +16,7 @@
         SELECT
             *
         FROM
-            quiz.java_method
+            quiz.pg_java_method
         WHERE
             1=1
           AND
@@ -27,7 +27,7 @@
         SELECT
             *
         FROM
-            quiz.java_method
+            quiz.pg_java_method
         WHERE
             1=1
     </select>
@@ -36,7 +36,7 @@
         SELECT
             *
         FROM
-            quiz.java_method
+            quiz.pg_java_method
         WHERE
             1=1
         <if test="difficulty != 'ALL'">
