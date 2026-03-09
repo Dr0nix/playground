@@ -49,20 +49,57 @@ function showQuiz() {
 function submitAnswer() {
     const quiz = quizList[curIdx];
     const inputAnswer = $('#answer').val().trim();
+    let isCorrect = false;
 
     if(!quiz) return;
 
     if(inputAnswer === quiz.answerText) {
         score++;
+        isCorrect = true;
         $('#score').text(score);
     }
 
     curIdx++;
+    showResult(isCorrect, quiz.answerText, quiz.explanation);
+}
+
+function showResult(isCorrect, answerText, explanation) {
+    $('#resultCard').removeClass('hidden');
+    $('#resultActions').removeClass('hidden');
+
+    $('#resultTitle')
+        .text(isCorrect ? '정답입니다!' : '오답입니다')
+        .removeClass('correct wrong')
+        .addClass(isCorrect ? 'correct' : 'wrong');
+
+    if (isCorrect) {
+        $('#resultAnswer').addClass('hidden');
+    } else {
+        $('#answerText').text(answerText);
+        $('#resultAnswer').removeClass('hidden');
+    }
+
+    $('#resultExplanation').text(explanation ?? '');
+
+    $('#answerArea').addClass('hidden');
+    $('#toolbarArea').addClass('hidden');
+}
+
+function hideResult() {
+    $('#resultCard').addClass('hidden');
+    $('#resultActions').addClass('hidden');
+    $('#resultAnswer').addClass('hidden');
+    $('#resultExplanation').text('');
+
+    $('#answerArea').removeClass('hidden');
+    $('#toolbarArea').removeClass('hidden');
+
     showQuiz();
 }
 
 function endQuiz() {
     alert(`퀴즈 종료! 점수: ${score}/${quizList.length}`);
+    window.location.reload();
 }
 
 function setEventListener() {
@@ -74,4 +111,6 @@ function setEventListener() {
     });
 
     $('#submit').click(submitAnswer);
+
+    $('#nextBtn').click(hideResult);
 }

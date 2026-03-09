@@ -112,7 +112,7 @@
         }
 
         .quiz-panel{
-            width:min(560px, 92vw);
+            width:min(640px, 92vw);
             display:grid;
             gap:24px;
             justify-items:center;
@@ -169,6 +169,64 @@
             padding:10px 14px;
         }
 
+        .result-card{
+            width:100%;
+            border:2px solid var(--accent);
+            border-radius:16px;
+            background:var(--panel);
+            box-shadow:0 16px 28px rgba(124,58,237,.07);
+            padding:28px 24px;
+            text-align:left;
+        }
+
+        .result-title{
+            font-size:24px;
+            font-weight:800;
+            text-align:center;
+            margin-bottom:18px;
+            color:var(--text);
+        }
+
+        .result-title.correct{
+            color:#16a34a;
+        }
+
+        .result-title.wrong{
+            color:#dc2626;
+        }
+
+        .result-answer{
+            font-size:18px;
+            font-weight:700;
+            margin-bottom:14px;
+            color:var(--text);
+            text-align:center;
+        }
+
+        .result-answer strong{
+            color:var(--accent);
+        }
+
+        .result-explanation{
+            font-size:14px;
+            line-height:1.8;
+            color:var(--muted);
+            white-space:pre-line;
+        }
+
+        .result-actions{
+            width:100%;
+            display:flex;
+            justify-content:center;
+            margin-top:8px;
+        }
+
+        .result-actions .btn{
+            min-width:180px;
+            height:48px;
+            font-size:16px;
+        }
+
         @media (max-width:640px){
             .intro-options{
                 grid-template-columns:1fr;
@@ -176,6 +234,10 @@
 
             .answer{
                 grid-template-columns:1fr;
+            }
+
+            .result-card{
+                padding:22px 18px;
             }
         }
     </style>
@@ -195,11 +257,12 @@
                 <div class="option-box">
                     <label class="option-label" for="difficulty">난이도</label>
                     <select id="difficulty" class="option-select">
+                        <option value="ALL" >전체</option>
                         <option value="EASY" selected>쉬움</option>
-                        <option value="NORMAL" >보통</option>
+                        <option value="NORMAL">보통</option>
                         <option value="HARD">어려움</option>
                         <option value="EXTREME">극악</option>
-                        <option value="ALL">전체</option>
+
                     </select>
                 </div>
 
@@ -210,7 +273,6 @@
                         <option value="10" selected>10문제</option>
                         <option value="15">15문제</option>
                         <option value="20">20문제</option>
-                        <option value="0">무한모드</option>
                     </select>
                 </div>
             </div>
@@ -230,14 +292,27 @@
                 <div id="qText">아래 설명에 해당하는 자바 메서드명을 단답으로 입력하세요.</div>
             </div>
 
-            <div class="answer">
+            <div class="answer" id="answerArea">
                 <input id="answer" class="input" type="text" placeholder="답 입력 [ 예: toString() ]" autocomplete="off">
                 <button id="submit" class="btn primary" type="button">제출</button>
             </div>
 
-            <div class="toolbar">
+            <div class="toolbar" id="toolbarArea">
                 <button id="hint" class="btn secondary" type="button">힌트</button>
                 <button id="skip" class="btn secondary" type="button">건너뛰기</button>
+            </div>
+
+            <!-- 정답/오답 결과 카드 -->
+            <div class="result-card hidden" id="resultCard">
+                <div id="resultTitle" class="result-title">정답입니다!</div>
+                <div id="resultAnswer" class="result-answer hidden">
+                    정답 : <strong id="answerText"></strong>
+                </div>
+                <div id="resultExplanation" class="result-explanation"></div>
+            </div>
+
+            <div class="result-actions hidden" id="resultActions">
+                <button id="nextBtn" class="btn primary" type="button">다음 문제</button>
             </div>
         </div>
     </div>
