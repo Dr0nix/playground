@@ -9,23 +9,18 @@
     <title>퀴즈</title>
     <link rel="stylesheet" th:href="@{/css/app.css}">
     <style>
-        /* 공통 */
         .hidden{display:none !important;}
-
-        /* 화면 중앙 정렬용 래퍼(인트로/퀴즈 공용) */
         .stage{
-            min-height:calc(100vh - 56px); /* 레이아웃 상단 여백이 없으면 100vh도 OK */
+            min-height:calc(100vh - 56px);
             display:grid;
-            place-items:center;            /* 가로·세로 중앙 */
-            position:relative;             /* score-badge 절대배치 기준 */
-            padding:28px;                  /* 레이아웃 톤 유지 */
+            place-items:center;
+            position:relative;
+            padding:28px;
         }
-
-        /* 인트로 카드 */
         .card--intro{
             max-width:720px;
             width:min(92vw, 720px);
-            margin:0;                      /* 중앙정렬이므로 마진 제거 */
+            margin:0;
             padding:64px 48px;
             text-align:center;
             border:2px solid var(--accent);
@@ -39,7 +34,6 @@
         .intro-actions{ display:grid; place-items:center; }
         .intro-actions .btn{ width:240px; height:56px; font-size:18px; }
 
-        /* 퀴즈 화면 */
         .score-badge{
             position:absolute; right:12px; top:12px;
             padding:10px 18px; border:2px solid var(--accent);
@@ -47,12 +41,11 @@
             font-weight:800; box-shadow:0 6px 16px rgba(124,58,237,.08);
         }
 
-        /* 퀴즈 본문 패널: 내부 요소를 세로로 중앙에 배치 */
         .quiz-panel{
             width:min(560px, 92vw);
             display:grid;
-            gap:24px;                      /* question / answer / toolbar 간격 */
-            justify-items:center;          /* 내부 요소 가로 중앙 */
+            gap:24px;
+            justify-items:center;
         }
 
         .question{
@@ -64,7 +57,7 @@
             text-align:center;
             box-shadow:0 14px 28px rgba(124,58,237,.07);
             font-size:18px;
-            margin:0;                      /* 중앙 레이아웃에서 여백 제거 */
+            margin:0;
         }
         .q-meta{ font-size:13px; color:var(--muted); margin-bottom:10px }
 
@@ -97,7 +90,6 @@
 <body>
 <section class="main" layout:fragment="content">
 
-    <!-- 1) 인트로: 화면 한가운데 -->
     <div class="stage" id="introStage">
         <div id="intro" class="card card--intro">
             <div class="intro-title">
@@ -110,24 +102,20 @@
         </div>
     </div>
 
-    <!-- 2) 퀴즈: 화면 한가운데(처음엔 숨김) -->
     <div class="stage hidden" id="quizStage">
         <div class="score-badge">점수 <span id="score">0</span></div>
 
         <div class="quiz-panel">
-            <!-- 문제 -->
             <div class="question">
                 <div class="q-meta"><span id="qNo">1</span> / <span id="qTotal">10</span></div>
                 <div id="qText">아래 설명에 해당하는 자바 메서드명을 단답으로 입력하세요.</div>
             </div>
 
-            <!-- 답 입력 -->
             <div class="answer">
                 <input id="answer" class="input" type="text" placeholder="답 입력 (예: toString)" autocomplete="off">
                 <button id="submit" class="btn primary" type="button">제출</button>
             </div>
 
-            <!-- 옵션 -->
             <div class="toolbar">
                 <button id="hint" class="btn secondary" type="button">힌트</button>
                 <button id="skip" class="btn secondary" type="button">건너뛰기</button>
@@ -135,9 +123,11 @@
         </div>
     </div>
 
-    <script th:src="@{/js/client/javaMethodQuiz.js}"></script>
-    <script th:src="@{/js/common/utils.js}"></script>
-
 </section>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/common/utils.js}"></script>
+    <script th:src="@{/js/client/javaMethodQuiz.js}"></script>
+</th:block>
 </body>
 </html>

@@ -8,18 +8,17 @@
     <link rel="stylesheet" th:href="@{/css/app.css}">
 </head>
 <body>
-<div class="layout">
-    <!-- 사이드바 include -->
-    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
-    <script th:src="@{/js/common/sidebar.js}"></script>
+<th:block th:replace="~{fragments/config :: config}"></th:block>
 
-    <!-- 페이지 개별 컨텐츠 -->
+<div class="layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
     <main class="main" layout:fragment="content">
         <div class="card">기본 레이아웃</div>
     </main>
 </div>
 
-<script th:src="@{/webjars/jquery/3.7.1/jquery.min.js}"></script>
-
+<script th:src="@{/js/common/sidebar.js}"></script>
+<th:block layout:fragment="script"></th:block>
 </body>
 </html>
