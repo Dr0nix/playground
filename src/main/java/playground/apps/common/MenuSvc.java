@@ -22,7 +22,10 @@ public class MenuSvc {
 
     @Transactional(readOnly = true)
     public List<MenuNodeDTO> getMenuTree() {
-        List<Menu> rows = repo.findByUseYnTrueOrderByMenuLvAscPrntNoAscMenuNoAsc();
+        List<Menu> rows = repo.findByUseYnTrueOrderByMenuLvAscPrntNoAscSortOrdAsc()
+                .stream()
+                .filter(m -> !Long.valueOf(6L).equals(m.getMenuNo())) // 홈 메뉴 사이드바에서 제외
+                .toList();
 
         // Menu 엔티티 → Node 매핑
         Map<Long, MenuNodeDTO> byId = new LinkedHashMap<>();
