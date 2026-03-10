@@ -29,7 +29,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
-sever:
+server:
   port: ${PORT:8080}
 
 app:
