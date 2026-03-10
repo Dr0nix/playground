@@ -1,7 +1,10 @@
 package playground.model.dto;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class QuizDTO {
     private Long quizNo;
     private String questionText;
