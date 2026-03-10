@@ -18,12 +18,14 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class User extends AuditableEntity {
 
+    @Id
+    private Long userId;
+
     @Column(nullable = false)
     private String userNm;
 
-    @Id
     @Email
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String userEmail;
 
     @Column(nullable = false)
@@ -32,7 +34,8 @@ public class User extends AuditableEntity {
     private Boolean useYn;
 
     @Builder
-    public User(String userNm, String userEmail, String userPw, Boolean useYn, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
+    public User(Long userId, String userNm, String userEmail, String userPw, Boolean useYn, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
+        this.userId = userId;
         this.userNm = userNm;
         this.userEmail = userEmail;
         this.userPw = userPw;

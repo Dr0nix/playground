@@ -7,8 +7,10 @@ import playground.model.entity.plain.User;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserNm(String userNm);
 
     Optional<User> findByUserEmail(String userEmail);
+
+    Optional<User> findByUserId(Long userId);
 }
