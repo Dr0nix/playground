@@ -138,4 +138,9 @@ function setEventListener() {
     $('#restartBtn').click(() => {
         window.location.reload();
     });
+
+    $('#skipBtn').click(() => {
+        curIdx++;
+        showQuiz();
+    });
 }
