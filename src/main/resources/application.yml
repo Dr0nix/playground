@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: neon
+    default: neon
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari:
