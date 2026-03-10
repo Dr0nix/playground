@@ -30,12 +30,16 @@
 .intro-options{
     width:min(100%, 460px);
     margin:0 auto 28px;
-    display:grid;
-    grid-template-columns:1fr 1fr;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
     gap:16px;
 }
 
 .option-box{
+    flex:1 1 220px;
+    max-width:220px;
+    min-width:220px;
     text-align:left;
 }
 

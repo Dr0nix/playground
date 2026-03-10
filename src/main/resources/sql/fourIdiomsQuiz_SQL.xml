@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="playground.model.mapper.FourIdiomsQuizMapp">
+    <select id="getQuizCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            quiz.pg_four_idioms
+        WHERE
+            1=1
+    </select>
+
+    <select id="getQuizByNo" parameterType="long" resultType="FourIdiomsQuizDTO">
+        SELECT
+            *
+        FROM
+            quiz.pg_four_idioms
+        WHERE
+            1=1
+          AND
+            quiz_no = #{quizNo}
+    </select>
+
+    <select id="getQuizList" resultType="playground.model.dto.FourIdiomsQuizDTO">
+        SELECT
+            *
+        FROM
+            quiz.pg_four_idioms
+        WHERE
+            1=1
+    </select>
+
+    <select id="getConditionalQuizSet" parameterType="hashmap" resultType="playground.model.dto.FourIdiomsQuizDTO">
+        SELECT
+            *
+        FROM
+            quiz.pg_four_idioms
+        WHERE
+            1=1
+        ORDER BY
+            RANDOM()
+        <if test="roundCount != 0">
+            LIMIT #{roundCount}
+        </if>
+    </select>
+</mapper>

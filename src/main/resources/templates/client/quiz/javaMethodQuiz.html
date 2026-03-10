@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/base}">
+
+<head>
+    <meta charset="utf-8">
+    <title>퀴즈</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/quiz/quiz-common.css}">
+
+</head>
+
+<body>
+<section class="main" layout:fragment="content">
+
+    <div class="stage" id="introStage">
+        <div id="intro" class="card card--intro">
+            <div class="intro-title">
+                문제에서 설명하는 <strong>자바 메서드</strong>를<br/>
+                <strong>단답으로 입력</strong>하세요
+            </div>
+
+            <div class="intro-options">
+                <div class="option-box">
+                    <label class="option-label" for="difficulty">난이도</label>
+                    <select id="difficulty" class="option-select">
+                        <option value="ALL" >전체</option>
+                        <option value="EASY" selected>쉬움</option>
+                        <option value="NORMAL">보통</option>
+                        <option value="HARD">어려움</option>
+                        <option value="EXTREME">극악</option>
+
+                    </select>
+                </div>
+
+                <div class="option-box">
+                    <label class="option-label" for="roundCount">라운드</label>
+                    <select id="roundCount" class="option-select">
+                        <option value="5">5문제</option>
+                        <option value="10" selected>10문제</option>
+                        <option value="15">15문제</option>
+                        <option value="20">20문제</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="intro-actions">
+                <button id="startBtn" class="btn primary" type="button">시작</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="stage hidden" id="quizStage">
+        <div class="score-badge">점수 <span id="score">0</span></div>
+
+        <div class="quiz-panel">
+            <div class="question">
+                <div class="q-meta"><span id="qNo">1</span> / <span id="qTotal">10</span></div>
+                <div id="qText">아래 설명에 해당하는 자바 메서드명을 단답으로 입력하세요.</div>
+            </div>
+
+            <div class="answer" id="answerArea">
+                <input id="answer" class="input" type="text" placeholder="답 입력 [ 예: toString() ]" autocomplete="off">
+                <button id="submit" class="btn primary" type="button">제출</button>
+            </div>
+
+            <div class="toolbar" id="toolbarArea">
+                <button id="hintBtn" class="btn secondary" type="button" hidden>힌트</button>
+                <button id="skipBtn" class="btn secondary" type="button">건너뛰기</button>
+            </div>
+
+            <!-- 정답/오답 결과 카드 -->
+            <div class="result-card hidden" id="resultCard">
+                <div id="resultTitle" class="result-title">정답입니다!</div>
+                <div id="resultAnswer" class="result-answer hidden">
+                    정답 : <strong id="answerText"></strong>
+                </div>
+                <div id="resultExplanation" class="result-explanation"></div>
+            </div>
+
+            <div class="result-actions hidden" id="resultActions">
+                <button id="nextBtn" class="btn primary" type="button">다음 문제</button>
+                <button id="restartBtn" class="btn primary hidden" type="button">처음으로</button>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/common/utils.js}"></script>
+    <script th:src="@{/js/client/quiz/javaMethodQuiz.js}"></script>
+</th:block>
+</body>
+</html>
