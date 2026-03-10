@@ -37,12 +37,12 @@ function showQuiz() {
     const quiz = quizList[curIdx];
     openIdx = -1;
 
-    getHint(quiz); // 초기에 열어줄 위치는 중복일 수 없음
-
     if(!quiz) {
         endQuiz();
         return;
     }
+
+    getHint(quiz); // 초기에 열어줄 위치는 중복일 수 없음
 
     $('#qNo').text(curIdx + 1);
     $('#qText').text(quiz.questionText);
