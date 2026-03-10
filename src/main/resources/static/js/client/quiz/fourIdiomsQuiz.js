@@ -35,6 +35,8 @@ function startFourIdiomsQuiz(roundCount) {
 function showQuiz() {
     const quiz = quizList[curIdx];
 
+    console.log(quiz)
+
     if(!quiz) {
         endQuiz();
         return;
@@ -59,10 +61,10 @@ function submitAnswer() {
     }
 
     curIdx++;
-    showResult(isCorrect, quiz.answerText, quiz.explanation);
+    showResult(isCorrect, quiz.answerText, quiz.hanjaText);
 }
 
-function showResult(isCorrect, answerText, explanation) {
+function showResult(isCorrect, answerText, hanja) {
     $('#resultCard').removeClass('hidden');
     $('#resultActions').removeClass('hidden');
 
@@ -74,21 +76,56 @@ function showResult(isCorrect, answerText, explanation) {
     if (isCorrect) {
         $('#resultAnswer').addClass('hidden');
     } else {
-        $('#answerText').text(answerText);
+        $('#answerText').text(answerText + '(' + hanja + ')');
         $('#resultAnswer').removeClass('hidden');
     }
 
-    $('#resultExplanation').text(explanation ?? '');
+    $('#answerArea').addClass('hidden');
+    $('#toolbarArea').addClass('hidden');
+}
+
+function hideResult() {
+    $('#resultCard').addClass('hidden');
+    $('#resultActions').addClass('hidden');
+    $('#resultAnswer').addClass('hidden');
+
+    $('#answerArea').removeClass('hidden');
+    $('#toolbarArea').removeClass('hidden');
+
+    $('#nextBtn').removeClass('hidden');
+    $('#restartBtn').addClass('hidden');
+
+    showQuiz();
+}
+
+function endQuiz() {
+    $('#resultCard').removeClass('hidden');
+    $('#resultActions').removeClass('hidden');
+
+    $('#resultTitle')
+        .text('퀴즈 종료!')
+        .removeClass('correct wrong');
+
+    $('#resultAnswer')
+        .removeClass('hidden')
+        .html(`최종 점수 : <strong>${score}</strong> / ${quizList.length}`);
+
+    $('#resultExplanation').text(
+        `모든 문제를 완료했습니다.\n처음으로 돌아가 다시 시작할 수 있습니다.`
+    );
 
     $('#answerArea').addClass('hidden');
     $('#toolbarArea').addClass('hidden');
+
+    $('#nextBtn').addClass('hidden');
+    $('#restartBtn').removeClass('hidden');
 }
 
 function setEventListener() {
     $('#startBtn').click(() => {
         let roundCount = $('#roundCount').val();
 
-        startJavaMethodQuiz(roundCount);
+        startFourIdiomsQuiz(roundCount);
     });
 
     $('#submit').click(submitAnswer);
