@@ -18,23 +18,11 @@
     <div class="stage" id="introStage">
         <div id="intro" class="card card--intro">
             <div class="intro-title">
-                문제에서 설명하는 <strong>자바 메서드</strong>를<br/>
+                문제에서 설명하는 <strong>사자성어</strong>를<br/>
                 <strong>단답으로 입력</strong>하세요
             </div>
 
             <div class="intro-options">
-                <div class="option-box">
-                    <label class="option-label" for="difficulty">난이도</label>
-                    <select id="difficulty" class="option-select">
-                        <option value="ALL" >전체</option>
-                        <option value="EASY" selected>쉬움</option>
-                        <option value="NORMAL">보통</option>
-                        <option value="HARD">어려움</option>
-                        <option value="EXTREME">극악</option>
-
-                    </select>
-                </div>
-
                 <div class="option-box">
                     <label class="option-label" for="roundCount">라운드</label>
                     <select id="roundCount" class="option-select">
@@ -58,17 +46,17 @@
         <div class="quiz-panel">
             <div class="question">
                 <div class="q-meta"><span id="qNo">1</span> / <span id="qTotal">10</span></div>
-                <div id="qText">아래 설명에 해당하는 자바 메서드명을 단답으로 입력하세요.</div>
+                <div id="qText"></div>
             </div>
 
             <div class="answer" id="answerArea">
-                <input id="answer" class="input" type="text" placeholder="답 입력 [ 예: toString() ]" autocomplete="off">
+                <input id="answer" class="input" type="text" placeholder="답 입력 [ 예: 내로남불 ]" autocomplete="off">
                 <button id="submit" class="btn primary" type="button">제출</button>
             </div>
 
             <div class="toolbar" id="toolbarArea">
-                <button id="hint" class="btn secondary" type="button">힌트</button>
-                <button id="skip" class="btn secondary" type="button">건너뛰기</button>
+                <button id="hintBtn" class="btn secondary" type="button">힌트</button>
+                <button id="skipBtn" class="btn secondary" type="button">건너뛰기</button>
             </div>
 
             <!-- 정답/오답 결과 카드 -->
@@ -91,7 +79,7 @@
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/common/utils.js}"></script>
-    <script th:src="@{/js/client/javaMethodQuiz.js}"></script>
+    <script th:src="@{/js/client/quiz/fourIdiomsQuiz.js}"></script>
 </th:block>
 </body>
 </html>
