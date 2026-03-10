@@ -2,6 +2,7 @@ let DEFAULT_URL = '/quiz/four-idioms';
 let quizList = [];
 let curIdx = 0;
 let score = 0;
+let openIdx = -1;
 
 $(document).ready(() => {
     setEventListener();
@@ -34,8 +35,9 @@ function startFourIdiomsQuiz(roundCount) {
 
 function showQuiz() {
     const quiz = quizList[curIdx];
+    openIdx = -1;
 
-    console.log(quiz)
+    getHint(quiz); // 초기에 열어줄 위치는 중복일 수 없음
 
     if(!quiz) {
         endQuiz();
@@ -45,6 +47,34 @@ function showQuiz() {
     $('#qNo').text(curIdx + 1);
     $('#qText').text(quiz.questionText);
     $('#answer').val('').focus();
+    $('#hintBtn').prop('disabled', false);
+}
+
+function getHint(quiz) {
+    const answer = quiz.answerText;
+    let randomIdx = -1;
+
+    while (true) {
+        randomIdx = Math.floor(Math.random() * 4);
+
+        if (randomIdx !== openIdx) {
+            break;
+        }
+    }
+
+
+    let hintText = '';
+
+    for (let i = 0; i < 4; i++) {
+        if (i === openIdx || i === randomIdx) {
+            hintText += answer[i] + ' ';
+        } else {
+            hintText += '_ ';
+        }
+    }
+    openIdx = randomIdx;
+
+    $('#hintText').text(hintText);
 }
 
 function submitAnswer() {
@@ -139,5 +169,18 @@ function setEventListener() {
     $('#skipBtn').click(() => {
         curIdx++;
         showQuiz();
+    });
+
+    $('#hintBtn').click(() => {
+        let quiz = quizList[curIdx];
+        getHint(quiz);
+        $('#hintBtn').prop('disabled', true);
+    });
+
+    $('#answer').on('keydown', e => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            $('#submit').click();
+        }
     });
 }
