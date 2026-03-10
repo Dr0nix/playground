@@ -2,15 +2,8 @@ package playground.model.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
-public class JavaMethodQuizDTO {
-    private Long quizNo;
-    private String questionText;
-    private String answerText;
+public class JavaMethodQuizDTO extends QuizDTO{
     private String explanation;
-    private Boolean useYn;
-    private String createdBy;
-    private LocalDateTime createdAt;
+    private String difficultyCd;
 }
