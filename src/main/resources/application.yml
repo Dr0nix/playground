@@ -27,5 +27,8 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+sever:
+  port: ${PORT:8080}
+
 app:
   version: "0.0.1"
