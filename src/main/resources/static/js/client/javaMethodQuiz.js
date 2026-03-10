@@ -94,12 +94,33 @@ function hideResult() {
     $('#answerArea').removeClass('hidden');
     $('#toolbarArea').removeClass('hidden');
 
+    $('#nextBtn').removeClass('hidden');
+    $('#restartBtn').addClass('hidden');
+
     showQuiz();
 }
 
 function endQuiz() {
-    alert(`퀴즈 종료! 점수: ${score}/${quizList.length}`);
-    window.location.reload();
+    $('#resultCard').removeClass('hidden');
+    $('#resultActions').removeClass('hidden');
+
+    $('#resultTitle')
+        .text('퀴즈 종료!')
+        .removeClass('correct wrong');
+
+    $('#resultAnswer')
+        .removeClass('hidden')
+        .html(`최종 점수 : <strong>${score}</strong> / ${quizList.length}`);
+
+    $('#resultExplanation').text(
+        `모든 문제를 완료했습니다.\n처음으로 돌아가 다시 시작할 수 있습니다.`
+    );
+
+    $('#answerArea').addClass('hidden');
+    $('#toolbarArea').addClass('hidden');
+
+    $('#nextBtn').addClass('hidden');
+    $('#restartBtn').removeClass('hidden');
 }
 
 function setEventListener() {
@@ -113,4 +134,8 @@ function setEventListener() {
     $('#submit').click(submitAnswer);
 
     $('#nextBtn').click(hideResult);
+
+    $('#restartBtn').click(() => {
+        window.location.reload();
+    });
 }
