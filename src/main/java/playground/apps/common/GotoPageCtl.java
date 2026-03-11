@@ -43,7 +43,7 @@ public class GotoPageCtl {
             ) {
 
         User userDto = UsetUtil.getUser();
-        if(!pageAcsLogSvc.shouldSkipPageLog(request, response)) {
+        if (!pageAcsLogSvc.shouldSkipPageLog(request, response, userDto.getUserId(), menuNo)) {
             pageAcsLogSvc.savePageAcsLog(userDto.getUserId(), menuNo, getClientIp(request));
         }
         return svc.goToPage(menuNo);
