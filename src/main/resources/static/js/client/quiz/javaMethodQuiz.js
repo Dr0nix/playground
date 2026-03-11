@@ -144,4 +144,11 @@ function setEventListener() {
         curIdx++;
         showQuiz();
     });
+
+    $('#toggleRankingBtn').on('click', function () {
+        $('#rankingDetail').toggleClass('hidden');
+
+        const isHidden = $('#rankingDetail').hasClass('hidden');
+        $(this).text(isHidden ? '전체 보기' : '접기');
+    });
 }
