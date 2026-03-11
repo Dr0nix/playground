@@ -2,13 +2,16 @@ let DEFAULT_URL = '/quiz/four-idioms';
 let quizList = [];
 let curIdx = 0;
 let score = 0;
-let openIdx = -1;
+let openIndexes = [];
+let difficulty = 'HARD';
 
 $(document).ready(() => {
     setEventListener();
 });
 
 function startFourIdiomsQuiz(roundCount) {
+    difficulty = $('#difficulty').val();
+
     $.ajax({
         url: DEFAULT_URL + '/start',
         type: 'GET',
@@ -28,73 +31,141 @@ function startFourIdiomsQuiz(roundCount) {
         }
     });
 
-    // 화면 호출
     $('#introStage').addClass('hidden');
     $('#quizStage').removeClass('hidden');
 }
 
 function showQuiz() {
     const quiz = quizList[curIdx];
-    openIdx = -1;
+    openIndexes = [];
 
     if(!quiz) {
         endQuiz();
         return;
     }
 
-    getHint(quiz); // 초기에 열어줄 위치는 중복일 수 없음
+    $('#hintBtn').prop('disabled', false);
+
+    // 초기 공개 위치 하나 선택
+    const firstIdx = pickOpenIndex();
+    if(firstIdx !== -1) {
+        openIndexes.push(firstIdx);
+    }
+
+    if(difficulty === 'HARD') {
+        $('#hintBtn').prop('disabled', true);
+        renderHintText(quiz.answerText, false);
+    }
+    else if(difficulty === 'NORMAL') {
+        renderHintText(quiz.answerText, false);
+    }
+    else { // EASY
+        renderHintText(quiz.answerText, true);
+    }
 
     $('#qNo').text(curIdx + 1);
     $('#qText').text(quiz.questionText);
     $('#answer').val('').focus();
-    $('#hintBtn').prop('disabled', false);
+}
+
+function pickOpenIndex() {
+    const candidates = [0,1,2,3].filter(i => !openIndexes.includes(i));
+
+    if(candidates.length === 0) return -1;
+
+    return candidates[Math.floor(Math.random() * candidates.length)];
 }
 
 function getHint(quiz) {
-    const answer = quiz.answerText;
-    let randomIdx = -1;
+    const newIdx = pickOpenIndex();
 
-    while (true) {
-        randomIdx = Math.floor(Math.random() * 4);
+    if(newIdx === -1) return;
 
-        if (randomIdx !== openIdx) {
-            break;
-        }
+    openIndexes.push(newIdx);
+
+    if(difficulty === 'EASY') {
+        renderHintText(quiz.answerText, true);
+    } else {
+        renderHintText(quiz.answerText, false);
     }
+}
 
+function renderHintText(answer, useChosung=false) {
+
+    const chosung = getChosung(answer);
 
     let hintText = '';
 
-    for (let i = 0; i < 4; i++) {
-        if (i === openIdx || i === randomIdx) {
+    for(let i=0;i<4;i++) {
+
+        if(openIndexes.includes(i)) {
             hintText += answer[i] + ' ';
-        } else {
+        }
+        else if(useChosung) {
+            hintText += chosung[i] + ' ';
+        }
+        else {
             hintText += '_ ';
         }
     }
-    openIdx = randomIdx;
 
-    $('#hintText').text(hintText);
+    $('#hintText').text(hintText.trim());
+}
+
+function getChosung(text) {
+
+    const CHO = [
+        'ㄱ','ㄲ','ㄴ','ㄷ','ㄸ',
+        'ㄹ','ㅁ','ㅂ','ㅃ','ㅅ',
+        'ㅆ','ㅇ','ㅈ','ㅉ','ㅊ',
+        'ㅋ','ㅌ','ㅍ','ㅎ'
+    ];
+
+    let result = '';
+
+    for(const ch of text) {
+
+        const code = ch.charCodeAt(0);
+
+        if(code >= 0xac00 && code <= 0xd7a3) {
+
+            const choIndex = Math.floor((code - 0xac00) / 588);
+
+            result += CHO[choIndex];
+
+        } else {
+
+            result += ch;
+        }
+    }
+
+    return result;
 }
 
 function submitAnswer() {
+
     const quiz = quizList[curIdx];
     const inputAnswer = $('#answer').val().trim();
+
     let isCorrect = false;
 
     if(!quiz) return;
 
     if(inputAnswer === quiz.answerText) {
+
         score++;
         isCorrect = true;
+
         $('#score').text(score);
     }
 
     curIdx++;
+
     showResult(isCorrect, quiz.answerText, quiz.hanjaText);
 }
 
 function showResult(isCorrect, answerText, hanja) {
+
     $('#resultCard').removeClass('hidden');
     $('#resultActions').removeClass('hidden');
 
@@ -104,9 +175,13 @@ function showResult(isCorrect, answerText, hanja) {
         .addClass(isCorrect ? 'correct' : 'wrong');
 
     if (isCorrect) {
+
         $('#resultAnswer').addClass('hidden');
+
     } else {
+
         $('#answerText').text(answerText + '(' + hanja + ')');
+
         $('#resultAnswer').removeClass('hidden');
     }
 
@@ -115,6 +190,7 @@ function showResult(isCorrect, answerText, hanja) {
 }
 
 function hideResult() {
+
     $('#resultCard').addClass('hidden');
     $('#resultActions').addClass('hidden');
     $('#resultAnswer').addClass('hidden');
@@ -129,6 +205,7 @@ function hideResult() {
 }
 
 function endQuiz() {
+
     $('#resultCard').removeClass('hidden');
     $('#resultActions').removeClass('hidden');
 
@@ -152,7 +229,9 @@ function endQuiz() {
 }
 
 function setEventListener() {
+
     $('#startBtn').click(() => {
+
         let roundCount = $('#roundCount').val();
 
         startFourIdiomsQuiz(roundCount);
@@ -163,23 +242,46 @@ function setEventListener() {
     $('#nextBtn').click(hideResult);
 
     $('#restartBtn').click(() => {
+
         document.cookie = "skipPageLogOnce=Y; path=/";
+
         window.location.reload();
     });
 
     $('#skipBtn').click(() => {
+
         curIdx++;
+
         showQuiz();
     });
 
     $('#hintBtn').click(() => {
+
         let quiz = quizList[curIdx];
+
         getHint(quiz);
+
         $('#hintBtn').prop('disabled', true);
     });
 
-    $('#answer').on('keydown', e => {
-        if (e.key === 'Enter') {
+    $(document).on('keydown', function (e) {
+        if (e.key !== 'Enter') return;
+
+        // 결과 화면이 열려 있으면 다음/처음으로
+        if (!$('#resultCard').hasClass('hidden')) {
+            e.preventDefault();
+
+            if (!$('#nextBtn').hasClass('hidden')) {
+                $('#nextBtn').click();
+            } else if (!$('#restartBtn').hasClass('hidden')) {
+                $('#restartBtn').click();
+            }
+
+            return;
+        }
+
+        // 입력 영역이 보이는 상태면 제출
+        if (!$('#answerArea').hasClass('hidden')) {
             e.preventDefault();
             $('#submit').click();
         }
