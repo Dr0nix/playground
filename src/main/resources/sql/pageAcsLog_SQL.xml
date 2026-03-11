@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="playground.model.mapper.PageAcsLogMapp">
+    <select id="getAllPageAcsLog" resultType="playground.model.dto.PageAcsLogResponseDTO">
+        SELECT
+            *
+        FROM
+            logging.pg_page_acs_log
+        WHERE
+            1=1
+        ORDER BY
+            log_no DESC
+    </select>
+
+    <select id="searchPageAcsLog" parameterType="hashmap" resultType="playground.model.dto.PageAcsLogResponseDTO">
+        SELECT
+            pal.log_no,
+            m.menu_nm,
+            pal.user_id,
+            u.user_nm,
+            pal.acs_dttm
+        FROM
+            logging.pg_page_acs_log AS pal
+        LEFT JOIN
+            common.pg_user AS u
+        ON
+            pal.user_id = u.user_id
+        LEFT JOIN
+            common.pg_menu AS m
+        ON
+            pal.menu_no = m.menu_no
+        WHERE
+            1=1
+        <choose>
+            <when test='gubun == "menu"'>
+                AND m.menu_nm LIKE CONCAT('%', #{searchWord}, '%')
+            </when>
+            <when test='gubun == "userId"'>
+                AND pal.user_id LIKE CONCAT('%', #{searchWord}, '%')
+            </when>
+            <when test='gubun == "userNm"'>
+                AND u.user_nm LIKE CONCAT('%', #{searchWord}, '%')
+            </when>
+            <otherwise>
+                AND
+                (
+                m.menu_nm LIKE CONCAT('%', #{searchWord}, '%')
+                OR
+                pal.user_id LIKE CONCAT('%', #{searchWord}, '%')
+                OR
+                u.user_nm LIKE CONCAT('%', #{searchWord}, '%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY
+            pal.log_no DESC
+    </select>
+
+    <insert id="insertPageAcsLog" parameterType="playground.model.dto.PageAcsLogRequestDTO">
+        INSERT INTO
+            logging.pg_page_acs_log
+            (user_id, menu_no)
+        VALUES
+            ( #{userId}, #{menuNo} )
+    </insert>
+
+</mapper>

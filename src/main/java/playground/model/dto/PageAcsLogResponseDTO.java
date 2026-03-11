@@ -6,17 +6,19 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class PageAcsLogDTO {
+public class PageAcsLogResponseDTO {
     private Long logNo;
+    private String menuNm;
     private Long userId;
-    private Long menuId;
+    private String userNm;
     private LocalDateTime acsDttm;
 
     @Builder
-    public PageAcsLogDTO(Long logNo, Long userId, Long menuId, LocalDateTime acsDttm) {
+    public PageAcsLogResponseDTO(Long logNo, String menuNm, Long userId, String userNm, LocalDateTime acsDttm) {
         this.logNo = logNo;
+        this.menuNm = menuNm;
         this.userId = userId;
-        this.menuId = menuId;
+        this.userNm = userNm;
         this.acsDttm = acsDttm;
     }
 }

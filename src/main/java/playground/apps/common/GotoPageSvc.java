@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import playground.apps.logging.PageAcsLogSvc;
 import playground.enums.MenuType;
+import playground.model.dto.PageAcsLogRequestDTO;
 import playground.model.entity.plain.Menu;
 import playground.model.repository.MenuRepository;
 
@@ -13,6 +15,7 @@ import playground.model.repository.MenuRepository;
 @RequiredArgsConstructor
 public class GotoPageSvc {
     private final MenuRepository menuRepo;
+    private final PageAcsLogSvc pageAcsLogSvc;
 
     public String redirectToLogin() {
         log.info("redirectToLogin");
@@ -52,5 +55,13 @@ public class GotoPageSvc {
 
         log.info("[GOTO PAGE] : {}(으)로 이동합니다", pageUrl);
         return pageUrl;
+    }
+
+    public void savePageAcsLog(
+            Long userId, Long menuNo, String userIp
+    ) {
+        pageAcsLogSvc.insertPageAcsLog(
+                new PageAcsLogRequestDTO(userId, menuNo, userIp)
+        );
     }
 }
