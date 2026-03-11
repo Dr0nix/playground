@@ -61,9 +61,9 @@
     <insert id="insertPageAcsLog" parameterType="playground.model.dto.PageAcsLogRequestDTO">
         INSERT INTO
             logging.pg_page_acs_log
-            (user_id, menu_no)
+            (user_id, menu_no, user_ip)
         VALUES
-            ( #{userId}, #{menuNo} )
+            ( #{userId}, #{menuNo}, #{userIp} )
     </insert>
 
 </mapper>

@@ -57,12 +57,12 @@ public class User extends AuditableEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return userPw;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return userNm;
     }
 
     @Override

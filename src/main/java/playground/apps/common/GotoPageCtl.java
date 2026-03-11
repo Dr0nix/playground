@@ -39,6 +39,7 @@ public class GotoPageCtl {
             ) {
 
         User userDto = UsetUtil.getUser();
+        String ip = getClientIp(request);
         svc.savePageAcsLog(userDto.getUserId(), menuNo, getClientIp(request));
         return svc.goToPage(menuNo);
     }
