@@ -264,19 +264,26 @@ function setEventListener() {
         $('#hintBtn').prop('disabled', true);
     });
 
-    $('#answer').on('keydown', e => {
+    $(document).on('keydown', function (e) {
+        if (e.key !== 'Enter') return;
 
-        if (e.key === 'Enter') {
+        // 결과 화면이 열려 있으면 다음/처음으로
+        if (!$('#resultCard').hasClass('hidden')) {
+            e.preventDefault();
+
+            if (!$('#nextBtn').hasClass('hidden')) {
+                $('#nextBtn').click();
+            } else if (!$('#restartBtn').hasClass('hidden')) {
+                $('#restartBtn').click();
+            }
+
+            return;
+        }
+
+        // 입력 영역이 보이는 상태면 제출
+        if (!$('#answerArea').hasClass('hidden')) {
             e.preventDefault();
             $('#submit').click();
-        }
-    });
-
-    $('#resultCard').on('keydown', e => {
-
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            $('#nextBtn').click();
         }
     });
 }
