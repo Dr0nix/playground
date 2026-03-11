@@ -98,7 +98,7 @@ public class PageAcsLogSvc {
             Long userId, Long menuNo, String userIp
     ) {
         if(userId == 1L) { // 관리자는 로깅 안함
-//            return;
+            return;
         }
 
         if(menuNo == 6L) { // 홈 화면은 로깅 안함
