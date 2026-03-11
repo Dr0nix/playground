@@ -57,19 +57,6 @@ public class GotoPageSvc {
         return pageUrl;
     }
 
-    public void savePageAcsLog(
-            Long userId, Long menuNo, String userIp
-    ) {
-        if(userId == 1L) { // 관리자는 로깅 안함
-            return;
-        }
 
-        if(menuNo == 6L) { // 홈 화면은 로깅 안함
-            return;
-        }
 
-        pageAcsLogSvc.insertPageAcsLog(
-                new PageAcsLogRequestDTO(userId, menuNo, userIp)
-        );
-    }
 }

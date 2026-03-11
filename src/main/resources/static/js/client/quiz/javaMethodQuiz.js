@@ -136,6 +136,7 @@ function setEventListener() {
     $('#nextBtn').click(hideResult);
 
     $('#restartBtn').click(() => {
+        document.cookie = "skipPageLogOnce=Y; path=/";
         window.location.reload();
     });
 
