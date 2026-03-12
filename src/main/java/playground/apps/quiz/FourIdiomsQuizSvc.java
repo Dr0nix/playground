@@ -7,6 +7,7 @@ import playground.model.dto.FourIdiomsQuizDTO;
 import playground.model.dto.FourIdiomsRankDTO;
 import playground.model.mapper.FourIdiomsQuizMapp;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,21 @@ public class FourIdiomsQuizSvc {
         return quizList;
     }
 
-    List<FourIdiomsRankDTO> getTopThreeUser(Map<String, Object> paramMap) {
+    List<FourIdiomsRankDTO> getTopThreeUser() {
+        Map<String, Object> paramMap = getSeasonPeriod();
+
         return mapp.getTopThreeUser(paramMap);
+    }
+
+    private Map<String, Object> getSeasonPeriod() {
+        Map<String, Object> paramMap = new HashMap<>();
+
+        String from = "2026-01-01";
+        String to = "2026-06-01";
+
+        paramMap.put("from", from);
+        paramMap.put("to", to);
+
+        return paramMap;
     }
 }

@@ -44,4 +44,9 @@ public class FourIdiomsQuizCtl {
 
         return new ResponseEntity<>(quizList, HttpStatus.OK);
     }
+
+    @GetMapping("/rank")
+    public ResponseEntity<?> getTopThreeUser() {
+        return new ResponseEntity<>(svc.getTopThreeUser(), HttpStatus.OK);
+    }
 }
