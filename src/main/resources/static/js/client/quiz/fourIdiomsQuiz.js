@@ -7,6 +7,7 @@ let difficulty = 'HARD';
 
 $(document).ready(() => {
     setEventListener();
+    showRanking();
 });
 
 function startFourIdiomsQuiz(roundCount) {
@@ -228,6 +229,55 @@ function endQuiz() {
     $('#restartBtn').removeClass('hidden');
 }
 
+function showRanking() {
+    $.ajax({
+        url: DEFAULT_URL + '/rank',
+        type: 'GET',
+        success: data => {
+            console.log(data);
+            var length = data.length;
+
+            if(length === 0) {
+                return;
+            }
+
+            let htmlString = '';
+            for(var i = 0; i < length; i++) {
+                var row = data[i];
+
+                htmlString +=
+                    '<div class="ranking-list">' +
+                    '<span class="rank-no">' + (i + 1) +'</span>' +
+                    '<span class="rank-name">' + row.userNickname + '</span>' +
+                    '<span class="rank-score">' + row.maxScore + '</span>' +
+                    '</div>';
+            }
+
+            $('.ranking-list').html(htmlString);
+        },
+        error: (xhr) => {
+            console.log('랭킹을 불러오는데 문제가 발생했습니다');
+        }
+    })
+}
+
+function updateRanking() {
+    console.log(score);
+
+    $.ajax({
+        url: DEFAULT_URL + '/rank',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(score),
+        success: () => {
+
+        },
+        error: (xhr) => {
+            console.log('랭킹 등록에 문제가 발생했습니다');
+        }
+    })
+}
+
 function setEventListener() {
 
     $('#startBtn').click(() => {
@@ -243,9 +293,10 @@ function setEventListener() {
 
     $('#restartBtn').click(() => {
 
+        updateRanking();
         document.cookie = "skipPageLogOnce=Y; path=/";
 
-        window.location.reload();
+        // window.location.reload();
     });
 
     $('#skipBtn').click(() => {

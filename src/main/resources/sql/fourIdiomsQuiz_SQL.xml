@@ -67,4 +67,29 @@
           AND
             r.max_score > 0
     </select>
+
+    <insert id="upsertUserRank" parameterType="hashmap">
+        INSERT INTO
+            quiz.pg_four_idioms_rank
+            (
+                user_id,
+                max_score,
+                created_at
+            )
+        VALUES
+            (
+                #{userId},
+                #{score},
+                NOW()
+            )
+        ON CONFLICT (user_id)
+        DO UPDATE
+        SET
+            max_score = EXCLUDED.max_score,
+            created_at = NOW()
+        WHERE
+        <![CDATA[
+            quiz.pg_four_idioms_rank.max_score <= EXCLUDED.max_score
+        ]]>
+    </insert>
 </mapper>

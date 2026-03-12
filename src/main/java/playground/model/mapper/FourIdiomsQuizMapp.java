@@ -20,4 +20,6 @@ public interface FourIdiomsQuizMapp {
     List<FourIdiomsQuizDTO> getConditionalQuizSet(int roundCount);
 
     List<FourIdiomsRankDTO> getTopThreeUser(Map<String, Object> paramMap) ;
+
+    void updateUserMaxScore(Map<String, Object> paramMap);
 }
