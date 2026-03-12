@@ -249,7 +249,12 @@ function showRanking() {
 }
 
 function updateRanking() {
-    console.log(score);
+    if(difficulty === 'NORMAL') {
+        score *= 3;
+    }
+    else if (difficulty === 'HARD') {
+        score *= 5;
+    }
 
     $.ajax({
         url: DEFAULT_URL + '/rank',
