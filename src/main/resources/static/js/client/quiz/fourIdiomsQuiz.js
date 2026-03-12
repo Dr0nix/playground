@@ -233,19 +233,14 @@ function showRanking() {
                 return;
             }
 
-            for(var i = 0; i < 3; i++) {
-                let htmlString = '';
+            for(var i = 0; i < length; i++) {
                 var row = data[i];
+                var rank = i + 1;
 
-                htmlString +=
-                    '<div class="ranking-row">' +
-                    '<span class="rank-no">' + (i + 1) +'</span>' +
-                    '<span class="rank-name">' + row.userNickname + '</span>' +
-                    '<span class="rank-score">' + row.maxScore + '</span>' +
-                    '</div>';
+                $(`#top${rank} .rank-name`).text(row.userNickname);
+                $(`#top${rank} .rank-score`).text(`${row.maxScore}점`);
             }
 
-            $('.ranking-list').html(htmlString);
         },
         error: (xhr) => {
             console.log('랭킹을 불러오는데 문제가 발생했습니다');
