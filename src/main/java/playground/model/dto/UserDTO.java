@@ -33,4 +33,7 @@ public class UserDTO {
         this.modifiedBy = modifiedBy;
         this.modifiedAt = modifiedAt;
     }
+
+    public UserDTO() {
+    }
 }

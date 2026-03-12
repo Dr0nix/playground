@@ -1,9 +1,6 @@
 package playground.model.entity.plain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +20,12 @@ import java.util.List;
 public class User extends AuditableEntity implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
+    @SequenceGenerator(
+            name = "user_seq_gen",
+            sequenceName = "common.pg_user_user_id_seq",
+            allocationSize = 1
+    )
     private Long userId;
 
     @Column(nullable = false)
