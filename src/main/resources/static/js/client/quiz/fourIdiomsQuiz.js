@@ -233,12 +233,12 @@ function showRanking() {
                 return;
             }
 
-            let htmlString = '';
-            for(var i = 0; i < length; i++) {
+            for(var i = 0; i < 3; i++) {
+                let htmlString = '';
                 var row = data[i];
 
                 htmlString +=
-                    '<div class="ranking-list">' +
+                    '<div class="ranking-row">' +
                     '<span class="rank-no">' + (i + 1) +'</span>' +
                     '<span class="rank-name">' + row.userNickname + '</span>' +
                     '<span class="rank-score">' + row.maxScore + '</span>' +
