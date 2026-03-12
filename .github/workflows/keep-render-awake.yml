@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call Render keep-alive endpoint
-        run: curl -fsS https://너의-prod-렌더-주소/system/awake > /dev/null
+        run: curl -fsS https://playgrownd.onrender.com/system/awake > /dev/null
