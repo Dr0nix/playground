@@ -48,9 +48,11 @@ public class FourIdiomsQuizCtl {
     }
 
     @PostMapping("/rank")
-    public void updateUserMaxScore(
+    public ResponseEntity<?> updateUserMaxScore(
             @RequestBody Long score
     ) {
         svc.updateUserMaxScore(score);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

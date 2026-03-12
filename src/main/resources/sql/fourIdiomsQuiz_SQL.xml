@@ -68,7 +68,7 @@
             r.max_score > 0
     </select>
 
-    <insert id="upsertUserRank" parameterType="hashmap">
+    <insert id="updateUserMaxScore" parameterType="hashmap">
         INSERT INTO
             quiz.pg_four_idioms_rank
             (

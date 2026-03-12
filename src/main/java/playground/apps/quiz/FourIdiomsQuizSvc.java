@@ -74,5 +74,7 @@ public class FourIdiomsQuizSvc {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("score", score);
         paramMap.put("userId", userId);
+
+        mapp.updateUserMaxScore(paramMap);
     }
 }

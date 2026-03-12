@@ -175,17 +175,9 @@ function showResult(isCorrect, answerText, hanja) {
         .removeClass('correct wrong')
         .addClass(isCorrect ? 'correct' : 'wrong');
 
-    if (isCorrect) {
+    $('#answerText').text(answerText + '(' + hanja + ')');
 
-        $('#resultAnswer').addClass('hidden');
-
-    } else {
-
-        $('#answerText').text(answerText + '(' + hanja + ')');
-
-        $('#resultAnswer').removeClass('hidden');
-    }
-
+    $('#resultAnswer').removeClass('hidden');
     $('#answerArea').addClass('hidden');
     $('#toolbarArea').addClass('hidden');
 }
@@ -272,6 +264,9 @@ function updateRanking() {
         success: () => {
 
         },
+        complete: () => {
+            window.location.reload();
+        },
         error: (xhr) => {
             console.log('랭킹 등록에 문제가 발생했습니다');
         }
@@ -295,8 +290,6 @@ function setEventListener() {
 
         updateRanking();
         document.cookie = "skipPageLogOnce=Y; path=/";
-
-        // window.location.reload();
     });
 
     $('#skipBtn').click(() => {
