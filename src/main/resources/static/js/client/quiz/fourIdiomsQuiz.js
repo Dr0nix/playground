@@ -2,6 +2,7 @@ let DEFAULT_URL = '/quiz/four-idioms';
 let quizList = [];
 let curIdx = 0;
 let score = 0;
+let finalScore = 0;
 let openIndexes = [];
 let difficulty = 'HARD';
 
@@ -198,6 +199,14 @@ function hideResult() {
 }
 
 function endQuiz() {
+    finalScore = score;
+
+    if(difficulty === 'NORMAL') {
+        finalScore = score * 3;
+    }
+    else if (difficulty === 'HARD') {
+        finalScore = score * 5
+    }
 
     $('#resultCard').removeClass('hidden');
     $('#resultActions').removeClass('hidden');
@@ -208,7 +217,10 @@ function endQuiz() {
 
     $('#resultAnswer')
         .removeClass('hidden')
-        .html(`최종 점수 : <strong>${score}</strong> / ${quizList.length}`);
+        .html(`
+            맞힌 문제 : <strong>${score}</strong> / ${quizList.length}<br>
+            최종 점수 : <strong>${finalScore}</strong>
+        `);
 
     $('#resultExplanation').text(
         `모든 문제를 완료했습니다.\n처음으로 돌아가 다시 시작할 수 있습니다.`
@@ -249,18 +261,12 @@ function showRanking() {
 }
 
 function updateRanking() {
-    if(difficulty === 'NORMAL') {
-        score *= 3;
-    }
-    else if (difficulty === 'HARD') {
-        score *= 5;
-    }
 
     $.ajax({
         url: DEFAULT_URL + '/rank',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(score),
+        data: JSON.stringify(finalScore),
         success: () => {
 
         },
