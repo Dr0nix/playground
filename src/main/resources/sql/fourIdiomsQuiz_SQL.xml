@@ -60,9 +60,11 @@
             r.user_id = u.user_id
         WHERE
             1=1
-          AND
         <![CDATA[
+          AND
             r.created_at >= #{from} AND r.created_at < #{to}
         ]]>
+          AND
+            r.max_score > 0
     </select>
 </mapper>
