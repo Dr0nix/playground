@@ -45,4 +45,51 @@
             LIMIT #{roundCount}
         </if>
     </select>
+
+    <select id="getTopThreeUser" parameterType="hashmap" resultType="playground.model.dto.FourIdiomsRankDTO">
+        SELECT
+            r.user_id,
+            u.user_nickname,
+            r.max_score,
+            r.created_at
+        FROM
+            quiz.pg_four_idioms_rank AS r
+        LEFT JOIN
+            common.pg_user AS u
+        ON
+            r.user_id = u.user_id
+        WHERE
+            1=1
+        <![CDATA[
+          AND
+            r.created_at >= #{from} AND r.created_at < #{to}
+        ]]>
+          AND
+            r.max_score > 0
+    </select>
+
+    <insert id="updateUserMaxScore" parameterType="hashmap">
+        INSERT INTO
+            quiz.pg_four_idioms_rank
+            (
+                user_id,
+                max_score,
+                created_at
+            )
+        VALUES
+            (
+                #{userId},
+                #{score},
+                NOW()
+            )
+        ON CONFLICT (user_id)
+        DO UPDATE
+        SET
+            max_score = EXCLUDED.max_score,
+            created_at = NOW()
+        WHERE
+        <![CDATA[
+            quiz.pg_four_idioms_rank.max_score <= EXCLUDED.max_score
+        ]]>
+    </insert>
 </mapper>

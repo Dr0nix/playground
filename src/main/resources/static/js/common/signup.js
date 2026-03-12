@@ -11,6 +11,7 @@ function gotoLoginPage() {
 
 function signup() {
     var userNm = $('#su-name').val();
+    var userNickname = $('#su-nickname').val();
     var userEmail = $('#su-email').val();
     var userPw = $('#su-password').val();
 
@@ -18,7 +19,7 @@ function signup() {
         url: DEFAULT_URL,
         type: 'POST',
         contentType: 'application/json; charset=UTF-8',
-        data: JSON.stringify({ userNm, userEmail, userPw }),
+        data: JSON.stringify({ userNm, userNickname, userEmail, userPw }),
         success: () => {
             alert('성공적으로 가입되었습니다');
             location.href = '/';
@@ -31,10 +32,11 @@ function signup() {
 
 function validateEveryThing() {
     var isValidName = validateName();
+    var isValidNickname = validateNickname();
     var isValidEmail = validateEmail();
     var isValidPw = validatePassword();
 
-    if(isValidName && isValidEmail && isValidPw) {
+    if(isValidName && isValidNickname && isValidEmail && isValidPw) {
         $('#signupSubmit').attr('disabled', false);
     }
     else {
@@ -49,6 +51,18 @@ function validateName() {
 
     // null이 아니고 길이가 2 이상이라면
     if(name !== null && name.length > 1) {
+        result = true;
+    }
+
+    return result;
+}
+
+function validateNickname() {
+    var result = false;
+
+    var nickname = $('#su-nickname').val();
+
+    if(nickname !== null && nickname.trim().length > 1) {
         result = true;
     }
 
@@ -91,6 +105,7 @@ function setEventListner() {
     $('#signupSubmit').click(signup);
 
     $('#su-name').on('change', validateEveryThing);
+    $('#su-nickname').on('change', validateEveryThing);
     $('#su-email').on('change', validateEveryThing);
     $('#su-password').on('change', validateEveryThing);
     $('#su-password2').on('change', validateEveryThing);

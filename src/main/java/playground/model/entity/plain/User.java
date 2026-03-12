@@ -1,9 +1,6 @@
 package playground.model.entity.plain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,10 +20,19 @@ import java.util.List;
 public class User extends AuditableEntity implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
+    @SequenceGenerator(
+            name = "user_seq_gen",
+            sequenceName = "common.pg_user_user_id_seq",
+            allocationSize = 1
+    )
     private Long userId;
 
     @Column(nullable = false)
     private String userNm;
+
+    @Column
+    private String userNickname;
 
     @Email
     @Column(nullable = false, unique = true)
@@ -38,9 +44,10 @@ public class User extends AuditableEntity implements UserDetails {
     private Boolean useYn;
 
     @Builder
-    public User(Long userId, String userNm, String userEmail, String userPw, Boolean useYn, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
+    public User(Long userId, String userNm, String userNickname, String userEmail, String userPw, Boolean useYn, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
         this.userId = userId;
         this.userNm = userNm;
+        this.userNickname = userNickname;
         this.userEmail = userEmail;
         this.userPw = userPw;
         this.useYn = useYn;

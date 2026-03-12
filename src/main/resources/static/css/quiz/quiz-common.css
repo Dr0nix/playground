@@ -234,3 +234,62 @@
         padding:22px 18px;
     }
 }
+
+.intro-stack{
+    width:min(92vw, 760px);
+    display:grid;
+    gap:20px;
+    justify-items:center;
+}
+
+.card--ranking{
+    width:100%;
+    padding:24px 28px;
+    border:2px solid var(--accent);
+    border-radius:16px;
+    background:var(--panel);
+    box-shadow:0 12px 24px rgba(124,58,237,.06);
+}
+
+.ranking-header{
+    margin-bottom:14px;
+}
+
+.ranking-title{
+    margin:0;
+    font-size:20px;
+    font-weight:800;
+    color:var(--text);
+    text-align:center;
+}
+
+.ranking-list{
+    display:grid;
+    gap:10px;
+}
+
+.rank-row{
+    display:grid;
+    grid-template-columns:40px 1fr auto;
+    align-items:center;
+    gap:12px;
+    padding:10px 14px;
+    border-radius:10px;
+    background:rgba(124,58,237,.05);
+}
+
+.rank-no{
+    text-align:center;
+    font-weight:800;
+    color:var(--accent);
+}
+
+.rank-name{
+    font-weight:600;
+    color:var(--text);
+}
+
+.rank-score{
+    font-weight:700;
+    color:var(--muted);
+}

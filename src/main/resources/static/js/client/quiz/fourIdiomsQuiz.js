@@ -2,11 +2,13 @@ let DEFAULT_URL = '/quiz/four-idioms';
 let quizList = [];
 let curIdx = 0;
 let score = 0;
+let finalScore = 0;
 let openIndexes = [];
 let difficulty = 'HARD';
 
 $(document).ready(() => {
     setEventListener();
+    showRanking();
 });
 
 function startFourIdiomsQuiz(roundCount) {
@@ -174,17 +176,9 @@ function showResult(isCorrect, answerText, hanja) {
         .removeClass('correct wrong')
         .addClass(isCorrect ? 'correct' : 'wrong');
 
-    if (isCorrect) {
+    $('#answerText').text(answerText + '(' + hanja + ')');
 
-        $('#resultAnswer').addClass('hidden');
-
-    } else {
-
-        $('#answerText').text(answerText + '(' + hanja + ')');
-
-        $('#resultAnswer').removeClass('hidden');
-    }
-
+    $('#resultAnswer').removeClass('hidden');
     $('#answerArea').addClass('hidden');
     $('#toolbarArea').addClass('hidden');
 }
@@ -205,6 +199,14 @@ function hideResult() {
 }
 
 function endQuiz() {
+    finalScore = score;
+
+    if(difficulty === 'NORMAL') {
+        finalScore = score * 3;
+    }
+    else if (difficulty === 'HARD') {
+        finalScore = score * 5
+    }
 
     $('#resultCard').removeClass('hidden');
     $('#resultActions').removeClass('hidden');
@@ -215,7 +217,10 @@ function endQuiz() {
 
     $('#resultAnswer')
         .removeClass('hidden')
-        .html(`최종 점수 : <strong>${score}</strong> / ${quizList.length}`);
+        .html(`
+            맞힌 문제 : <strong>${score}</strong> / ${quizList.length}<br>
+            최종 점수 : <strong>${finalScore}</strong>
+        `);
 
     $('#resultExplanation').text(
         `모든 문제를 완료했습니다.\n처음으로 돌아가 다시 시작할 수 있습니다.`
@@ -226,6 +231,52 @@ function endQuiz() {
 
     $('#nextBtn').addClass('hidden');
     $('#restartBtn').removeClass('hidden');
+}
+
+function showRanking() {
+    $.ajax({
+        url: DEFAULT_URL + '/rank',
+        type: 'GET',
+        success: data => {
+            console.log(data);
+            var length = data.length;
+
+            if(length === 0) {
+                return;
+            }
+
+            for(var i = 0; i < length; i++) {
+                var row = data[i];
+                var rank = i + 1;
+
+                $(`#top${rank} .rank-name`).text(row.userNickname);
+                $(`#top${rank} .rank-score`).text(`${row.maxScore}점`);
+            }
+
+        },
+        error: (xhr) => {
+            console.log('랭킹을 불러오는데 문제가 발생했습니다');
+        }
+    })
+}
+
+function updateRanking() {
+
+    $.ajax({
+        url: DEFAULT_URL + '/rank',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(finalScore),
+        success: () => {
+
+        },
+        complete: () => {
+            window.location.reload();
+        },
+        error: (xhr) => {
+            console.log('랭킹 등록에 문제가 발생했습니다');
+        }
+    })
 }
 
 function setEventListener() {
@@ -243,9 +294,8 @@ function setEventListener() {
 
     $('#restartBtn').click(() => {
 
+        updateRanking();
         document.cookie = "skipPageLogOnce=Y; path=/";
-
-        window.location.reload();
     });
 
     $('#skipBtn').click(() => {

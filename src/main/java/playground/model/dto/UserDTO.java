@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 
 @Data
 public class UserDTO {
+    private Long userId;
     private String userNm;
+    private String userNickname;
     private String userEmail;
     private String userPw;
     private Boolean useYn;
@@ -19,8 +21,10 @@ public class UserDTO {
 
 
     @Builder
-    public UserDTO(String userNm, String userEmail, String userPw, Boolean useYn, String createdBy, LocalDateTime createdAt, String modifiedBy, LocalDateTime modifiedAt) {
+    public UserDTO(Long userId, String userNm, String userNickname, String userEmail, String userPw, Boolean useYn, String createdBy, LocalDateTime createdAt, String modifiedBy, LocalDateTime modifiedAt) {
+        this.userId = userId;
         this.userNm = userNm;
+        this.userNickname = userNickname;
         this.userEmail = userEmail;
         this.userPw = userPw;
         this.useYn = useYn;
@@ -31,31 +35,5 @@ public class UserDTO {
     }
 
     public UserDTO() {
-    }
-
-    public static UserDTO fromUser(User user) {
-        return UserDTO.builder()
-                .userNm(user.getUserNm())
-                .userEmail(user.getUserEmail())
-                .userPw(user.getUserPw())
-                .useYn(user.getUseYn())
-                .createdBy(user.getCreatedBy())
-                .createdAt(user.getCreatedAt())
-                .modifiedBy(user.getModifiedBy())
-                .modifiedAt(user.getModifiedAt())
-                .build();
-    }
-
-    public static User toUser(UserDTO userDTO) {
-        return User.builder()
-                .userNm(userDTO.getUserNm())
-                .userEmail(userDTO.getUserEmail())
-                .userPw(userDTO.getUserPw())
-                .useYn(userDTO.getUseYn())
-                .createdBy(userDTO.getCreatedBy())
-                .createdAt(userDTO.getCreatedAt())
-                .modifiedBy(userDTO.getModifiedBy())
-                .modifiedAt(userDTO.getModifiedAt())
-                .build();
     }
 }
