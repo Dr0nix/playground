@@ -45,4 +45,24 @@
             LIMIT #{roundCount}
         </if>
     </select>
+
+    <select id="getTopThreeUser" parameterType="hashmap" resultType="playground.model.dto.FourIdiomsRankDTO">
+        SELECT
+            r.user_id,
+            u.user_nickname,
+            r.max_score,
+            r.created_at
+        FROM
+            quiz.pg_four_idioms_rank AS r
+        LEFT JOIN
+            common.pg_user AS u
+        ON
+            r.user_id = u.user_id
+        WHERE
+            1=1
+          AND
+        <![CDATA[
+            r.created_at >= #{from} AND r.created_at < #{to}
+        ]]>
+    </select>
 </mapper>
