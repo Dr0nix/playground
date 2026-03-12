@@ -27,6 +27,7 @@ public class SignupSvc {
 
         User user = User.builder()
                 .userNm(userDTO.getUserNm())
+                .userNickname(userDTO.getUserNickname())
                 .userEmail(userDTO.getUserEmail())
                 .userPw(hashedPw)
                 .useYn(true)
