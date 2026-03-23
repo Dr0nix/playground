@@ -15,12 +15,20 @@ import playground.apps.common.LoginSvc;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/v3/api-docs/**"
+    };
+
     @Bean
     SecurityFilterChain security(HttpSecurity http, LoginSvc loginSvc) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**","/js/**","/img/**","/favicon.ico", "/webjars/**").permitAll()
                         .requestMatchers("/login-page", "/login","/signup-page").permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .requestMatchers(HttpMethod.POST, "/signup").permitAll()
                         .anyRequest().authenticated()
                 )
