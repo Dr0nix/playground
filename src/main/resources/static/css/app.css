@@ -200,7 +200,7 @@ a{ color:var(--accent); }
     transition:filter .15s, transform .06s;
 }
 
-/* Primary (기본 보라 그RADIENT) */
+/* Primary (기본 보라 그라데이션) */
 .btn.primary{
     color:#fff;
     background:linear-gradient(135deg, var(--accent), var(--accent-dark));
