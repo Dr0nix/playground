@@ -2,16 +2,14 @@ package playground.model.entity.plain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "pg_notice", schema = "common")
 @Getter
-@Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ntc_seq_gen")
@@ -25,14 +23,14 @@ public class Notice {
     @Column(nullable = false, name = "title")
     private String title;
 
-    @Column(name = "cont")
+    @Column(name = "cont", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "pin_yn")
-    private boolean isPinned = false;
+    private boolean pinned = false;
 
     @Column(name = "use_yn")
-    private boolean isVisible = true;
+    private boolean visible = true;
 
     @Column(name = "view_cnt")
     private Long viewCount = 0L;
@@ -47,5 +45,16 @@ public class Notice {
     private LocalDateTime regDttm = LocalDateTime.now();
 
     @Column(name = "mod_dttm")
-    private LocalDateTime modDttm =  LocalDateTime.now();
+    private LocalDateTime modDttm = LocalDateTime.now();
+
+    @PrePersist
+    public void onCreate() {
+        this.regDttm = LocalDateTime.now();
+        this.modDttm = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.modDttm = LocalDateTime.now();
+    }
 }
