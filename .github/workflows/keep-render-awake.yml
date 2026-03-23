@@ -8,6 +8,14 @@ on:
 jobs:
   ping:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
-      - name: Call Render keep-alive endpoint
-        run: curl -fsS https://playgrownd.onrender.com/system/awake > /dev/null
+      - name: Call Render keep-alive endpoint with retries
+        run: |
+          curl --fail --silent --show-error \
+            --connect-timeout 15 \
+            --max-time 60 \
+            --retry 3 \
+            --retry-delay 10 \
+            --retry-all-errors \
+            https://playgrownd.onrender.com/system/awake > /dev/null
