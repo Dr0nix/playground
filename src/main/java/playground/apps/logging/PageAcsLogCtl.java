@@ -1,5 +1,6 @@
 package playground.apps.logging;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.HashMap;
 import java.util.Map;
 
+@Tag(name = "PageAccessLog", description = "화면 진입 로그 조회 API")
 @Controller
 @Slf4j
 @RequiredArgsConstructor
