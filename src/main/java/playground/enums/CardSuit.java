@@ -4,5 +4,6 @@ public enum CardSuit {
     SPADE,
     HEART,
     DIAMOND,
-    CLOVER
+    CLOVER,
+    SPECIAL
 }
