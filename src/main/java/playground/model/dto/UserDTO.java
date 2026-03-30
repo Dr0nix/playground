@@ -13,6 +13,7 @@ public class UserDTO {
     private String userNickname;
     private String userEmail;
     private String userPw;
+    private Integer userPoint;
     private Boolean useYn;
     private String createdBy;
     private LocalDateTime createdAt;
@@ -21,12 +22,13 @@ public class UserDTO {
 
 
     @Builder
-    public UserDTO(Long userId, String userNm, String userNickname, String userEmail, String userPw, Boolean useYn, String createdBy, LocalDateTime createdAt, String modifiedBy, LocalDateTime modifiedAt) {
+    public UserDTO(Long userId, String userNm, String userNickname, String userEmail, String userPw, Integer userPoint, Boolean useYn, String createdBy, LocalDateTime createdAt, String modifiedBy, LocalDateTime modifiedAt) {
         this.userId = userId;
         this.userNm = userNm;
         this.userNickname = userNickname;
         this.userEmail = userEmail;
         this.userPw = userPw;
+        this.userPoint = userPoint;
         this.useYn = useYn;
         this.createdBy = createdBy;
         this.createdAt = createdAt;
