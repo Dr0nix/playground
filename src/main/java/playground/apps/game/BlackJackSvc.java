@@ -39,6 +39,8 @@ public class BlackJackSvc {
         BlackJackGameState gameState = new BlackJackGameState(deck, playerHand, dealerHand,
                 BlackJackStatus.PLAYER_TURN, BlackJackResult.NONE, betAmount);
 
+        gameState = checkGameState(gameState);
+
         return gameState;
     }
 
