@@ -1,0 +1,372 @@
+.blackjack-page {
+    padding: 24px 28px;
+}
+
+.blackjack-wrap {
+    position: relative;
+    min-height: calc(100vh - 48px);
+    display: grid;
+    place-items: center;
+}
+
+/* 시작 오버레이 */
+.bj-start-overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 20;
+    padding: 24px;
+    background:
+            linear-gradient(rgba(246,247,253,.68), rgba(246,247,253,.72));
+    backdrop-filter: blur(3px);
+}
+
+.bj-start-card {
+    width: min(560px, 94vw);
+    text-align: center;
+}
+
+.bj-kicker {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.bj-title {
+    margin: 0;
+    font-size: clamp(32px, 5vw, 46px);
+    line-height: 1.1;
+    color: #4c1d95;
+}
+
+.bj-subtitle {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.bj-bet-panel {
+    margin-top: 26px;
+    text-align: left;
+}
+
+.bj-bet-label {
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+}
+
+.bj-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.bet-chip {
+    min-width: 88px;
+    padding: 10px 14px;
+    border: 1px solid #ddd6fe;
+    background: #fff;
+    color: var(--accent);
+    border-radius: 999px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .15s ease;
+}
+
+.bet-chip:hover,
+.bet-chip.is-selected {
+    background: #f5f3ff;
+    border-color: #c4b5fd;
+    color: #4c1d95;
+    box-shadow: 0 6px 16px rgba(124,58,237,.12);
+}
+
+.bj-custom-bet {
+    margin-top: 16px;
+}
+
+.bj-start-actions {
+    margin-top: 22px;
+}
+
+/* 게임 보드 */
+.blackjack-board {
+    width: min(1100px, 100%);
+    min-height: 760px;
+    padding: 24px;
+    border: 1px solid rgba(124,58,237,.12);
+    border-radius: 28px;
+    background:
+            radial-gradient(55% 40% at 50% 50%, rgba(255,255,255,.10), transparent 70%),
+            linear-gradient(180deg, #1e7b51 0%, #146443 100%);
+    box-shadow:
+            0 28px 50px rgba(0,0,0,.16),
+            inset 0 0 0 1px rgba(255,255,255,.06);
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto;
+    gap: 22px;
+    position: relative;
+    overflow: hidden;
+}
+
+.blackjack-board.is-hidden {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.bj-topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.bj-table-label {
+    margin: 0;
+    color: rgba(255,255,255,.72);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.bj-table-title {
+    margin: 6px 0 0;
+    color: #fff;
+    font-size: 28px;
+    line-height: 1.15;
+}
+
+.bj-topbar-right {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.bj-info-pill {
+    min-width: 128px;
+    padding: 10px 14px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.14);
+    color: #fff;
+    backdrop-filter: blur(8px);
+}
+
+.bj-info-key {
+    display: block;
+    font-size: 12px;
+    color: rgba(255,255,255,.72);
+    margin-bottom: 2px;
+}
+
+.bj-area {
+    padding: 18px 20px;
+    border-radius: 24px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.bj-area-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    gap: 12px;
+}
+
+.bj-role {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.68);
+}
+
+.bj-name {
+    margin: 4px 0 0;
+    font-size: 22px;
+    color: #fff;
+}
+
+.bj-score-box {
+    min-width: 82px;
+    text-align: right;
+    color: #fff;
+}
+
+.bj-score-label {
+    display: block;
+    font-size: 12px;
+    color: rgba(255,255,255,.68);
+}
+
+.bj-score-box strong {
+    font-size: 26px;
+}
+
+.bj-card-row {
+    min-height: 190px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.bj-center-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.bj-message-box {
+    flex: 1;
+    min-height: 84px;
+    padding: 16px 18px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.12);
+    color: #fff;
+}
+
+.bj-message-label {
+    margin: 0 0 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,.70);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 800;
+}
+
+.bj-message-box strong {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.bj-deck-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 120px;
+}
+
+.deck-count {
+    color: rgba(255,255,255,.78);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* 카드 공통 */
+.playing-card {
+    width: 110px;
+    height: 160px;
+    perspective: 1000px;
+    flex: 0 0 auto;
+    transform-origin: center center;
+}
+
+.playing-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform .55s ease;
+    transform-style: preserve-3d;
+}
+
+.playing-card.is-face-down .playing-card-inner {
+    transform: rotateY(180deg);
+}
+
+.playing-card-front,
+.playing-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 12px 24px rgba(0,0,0,.24);
+}
+
+.playing-card-front img,
+.playing-card-back img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.playing-card-back {
+    transform: rotateY(180deg);
+}
+
+.playing-card.is-dealt {
+    animation: cardDeal .35s ease both;
+}
+
+.deck-card {
+    transform: rotate(-5deg);
+}
+
+@keyframes cardDeal {
+    from {
+        opacity: 0;
+        transform: translateY(-16px) scale(.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.bj-action-bar {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.bj-action-bar .btn {
+    width: 180px;
+}
+
+/* 반응형 */
+@media (max-width: 960px) {
+    .blackjack-board {
+        min-height: auto;
+        padding: 18px;
+    }
+
+    .bj-topbar,
+    .bj-center-panel,
+    .bj-area-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .bj-topbar-right {
+        width: 100%;
+    }
+
+    .bj-info-pill {
+        flex: 1;
+    }
+
+    .playing-card {
+        width: 92px;
+        height: 134px;
+    }
+
+    .bj-action-bar .btn {
+        width: 100%;
+    }
+}
