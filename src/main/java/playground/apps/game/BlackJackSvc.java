@@ -14,7 +14,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class BlackJackSvc {
-    private PokerCardRepository repo;
+    private final PokerCardRepository repo;
 
     private Queue<PokerCard> getDeckWithoutJoker() {
         List<PokerCard> cards = repo.findByRankNot(0); // 조커 빼고 가져오기
