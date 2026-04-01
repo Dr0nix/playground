@@ -141,6 +141,7 @@ git checkout javaQuiz
 - [x]  사자성어 퀴즈 > 난이도별 가점 추가
 - [x]  RENDER 서버 spin-down 방지 크론탭 추가
 - [x]  SWAGGER 일괄 적용
+- [x]  블랙잭 게임 개발
 - [ ]  공지사항 게시판
 - [ ]  사용자 개인 포인트 제도 개발
 - [ ]  이력서 페이지 개발
