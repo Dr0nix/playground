@@ -1,10 +1,10 @@
 .blackjack-page {
-    padding: 24px 28px;
+    padding: 12px 20px;
 }
 
 .blackjack-wrap {
     position: relative;
-    min-height: calc(100vh - 48px);
+    min-height: calc(100vh - 80px);
     display: grid;
     place-items: center;
 }
@@ -23,7 +23,7 @@
 }
 
 .bj-start-card {
-    width: min(560px, 94vw);
+    width: min(480px, 94vw);
     text-align: center;
 }
 
@@ -38,25 +38,25 @@
 
 .bj-title {
     margin: 0;
-    font-size: clamp(32px, 5vw, 46px);
+    font-size: clamp(26px, 4vw, 36px);
     line-height: 1.1;
     color: #4c1d95;
 }
 
 .bj-subtitle {
-    margin: 12px 0 0;
+    margin: 8px 0 0;
     color: var(--muted);
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .bj-bet-panel {
-    margin-top: 26px;
+    margin-top: 18px;
     text-align: left;
 }
 
 .bj-bet-label {
-    margin-bottom: 12px;
-    font-size: 14px;
+    margin-bottom: 8px;
+    font-size: 13px;
     font-weight: 800;
     color: var(--text);
 }
@@ -68,12 +68,13 @@
 }
 
 .bet-chip {
-    min-width: 88px;
-    padding: 10px 14px;
+    min-width: 72px;
+    padding: 8px 12px;
     border: 1px solid #ddd6fe;
     background: #fff;
     color: var(--accent);
     border-radius: 999px;
+    font-size: 13px;
     font-weight: 800;
     cursor: pointer;
     transition: .15s ease;
@@ -92,16 +93,16 @@
 }
 
 .bj-start-actions {
-    margin-top: 22px;
+    margin-top: 16px;
 }
 
 /* 게임 보드 */
 .blackjack-board {
-    width: min(1100px, 100%);
-    min-height: 760px;
-    padding: 24px;
+    width: min(920px, 100%);
+    min-height: 0;
+    padding: 18px;
     border: 1px solid rgba(124,58,237,.12);
-    border-radius: 28px;
+    border-radius: 22px;
     background:
             radial-gradient(55% 40% at 50% 50%, rgba(255,255,255,.10), transparent 70%),
             linear-gradient(180deg, #1e7b51 0%, #146443 100%);
@@ -110,7 +111,7 @@
             inset 0 0 0 1px rgba(255,255,255,.06);
     display: grid;
     grid-template-rows: auto auto 1fr auto auto;
-    gap: 22px;
+    gap: 14px;
     position: relative;
     overflow: hidden;
 }
@@ -137,9 +138,9 @@
 }
 
 .bj-table-title {
-    margin: 6px 0 0;
+    margin: 4px 0 0;
     color: #fff;
-    font-size: 28px;
+    font-size: 22px;
     line-height: 1.15;
 }
 
@@ -150,13 +151,14 @@
 }
 
 .bj-info-pill {
-    min-width: 128px;
-    padding: 10px 14px;
-    border-radius: 16px;
+    min-width: 100px;
+    padding: 8px 12px;
+    border-radius: 12px;
     background: rgba(255,255,255,.12);
     border: 1px solid rgba(255,255,255,.14);
     color: #fff;
     backdrop-filter: blur(8px);
+    font-size: 14px;
 }
 
 .bj-info-key {
@@ -167,8 +169,8 @@
 }
 
 .bj-area {
-    padding: 18px 20px;
-    border-radius: 24px;
+    padding: 12px 16px;
+    border-radius: 18px;
     background: rgba(255,255,255,.08);
     border: 1px solid rgba(255,255,255,.10);
 }
@@ -177,8 +179,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
-    gap: 12px;
+    margin-bottom: 8px;
+    gap: 8px;
 }
 
 .bj-role {
@@ -191,8 +193,8 @@
 }
 
 .bj-name {
-    margin: 4px 0 0;
-    font-size: 22px;
+    margin: 2px 0 0;
+    font-size: 17px;
     color: #fff;
 }
 
@@ -209,14 +211,14 @@
 }
 
 .bj-score-box strong {
-    font-size: 26px;
+    font-size: 22px;
 }
 
 .bj-card-row {
-    min-height: 190px;
+    min-height: 130px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
@@ -229,9 +231,9 @@
 
 .bj-message-box {
     flex: 1;
-    min-height: 84px;
-    padding: 16px 18px;
-    border-radius: 20px;
+    min-height: 56px;
+    padding: 12px 14px;
+    border-radius: 16px;
     background: rgba(255,255,255,.12);
     border: 1px solid rgba(255,255,255,.12);
     color: #fff;
@@ -247,7 +249,7 @@
 }
 
 .bj-message-box strong {
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.5;
 }
 
@@ -255,8 +257,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    min-width: 120px;
+    gap: 6px;
+    min-width: 90px;
 }
 
 .deck-count {
@@ -267,8 +269,8 @@
 
 /* 카드 공통 */
 .playing-card {
-    width: 110px;
-    height: 160px;
+    width: 82px;
+    height: 120px;
     perspective: 1000px;
     flex: 0 0 auto;
     transform-origin: center center;
@@ -291,9 +293,9 @@
     position: absolute;
     inset: 0;
     backface-visibility: hidden;
-    border-radius: 14px;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 12px 24px rgba(0,0,0,.24);
+    box-shadow: 0 8px 18px rgba(0,0,0,.24);
 }
 
 .playing-card-front img,
@@ -336,8 +338,11 @@
 }
 
 .bj-action-bar .btn {
-    width: 180px;
+    width: 150px;
 }
+
+/* 유틸리티 */
+.hidden { display: none !important; }
 
 /* 반응형 */
 @media (max-width: 960px) {
@@ -362,8 +367,8 @@
     }
 
     .playing-card {
-        width: 92px;
-        height: 134px;
+        width: 68px;
+        height: 100px;
     }
 
     .bj-action-bar .btn {

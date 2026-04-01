@@ -44,6 +44,62 @@ public class BlackJackSvc {
         return gameState;
     }
 
+    public BlackJackGameState hit(BlackJackGameState gameState) {
+        if (gameState.getStatus() != BlackJackStatus.PLAYER_TURN) {
+            return gameState;
+        }
+
+        gameState.getPlayerHand().add(gameState.getDeck().poll());
+        gameState = checkGameState(gameState);
+
+        return gameState;
+    }
+
+    public BlackJackGameState stand(BlackJackGameState gameState) {
+        if (gameState.getStatus() != BlackJackStatus.PLAYER_TURN) {
+            return gameState;
+        }
+
+        gameState.setStatus(BlackJackStatus.DEALER_TURN);
+
+        // 딜러: 17 미만이면 계속 히트
+        while (calculateScore(gameState.getDealerHand()) < 17) {
+            gameState.getDealerHand().add(gameState.getDeck().poll());
+        }
+
+        gameState = resolveGame(gameState);
+
+        return gameState;
+    }
+
+    private BlackJackGameState resolveGame(BlackJackGameState gameState) {
+        int playerScore = calculateScore(gameState.getPlayerHand());
+        int dealerScore = calculateScore(gameState.getDealerHand());
+
+        boolean playerBJ = gameState.getPlayerHand().size() == 2 && playerScore == 21;
+        boolean dealerBJ = gameState.getDealerHand().size() == 2 && dealerScore == 21;
+
+        gameState.setStatus(BlackJackStatus.FINISHED);
+
+        if (playerBJ && dealerBJ) {
+            gameState.setResult(BlackJackResult.PUSH);
+        } else if (playerBJ) {
+            gameState.setResult(BlackJackResult.PLAYER_BLACKJACK);
+        } else if (dealerBJ) {
+            gameState.setResult(BlackJackResult.DEALER_BLACKJACK);
+        } else if (dealerScore > 21) {
+            gameState.setResult(BlackJackResult.PLAYER_WIN);
+        } else if (playerScore > dealerScore) {
+            gameState.setResult(BlackJackResult.PLAYER_WIN);
+        } else if (playerScore < dealerScore) {
+            gameState.setResult(BlackJackResult.DEALER_WIN);
+        } else {
+            gameState.setResult(BlackJackResult.PUSH);
+        }
+
+        return gameState;
+    }
+
     private BlackJackGameState checkGameState(BlackJackGameState gameState) {
         List<PokerCard> playerHand = gameState.getPlayerHand();
         List<PokerCard> dealerHand = gameState.getDealerHand();
@@ -80,7 +136,7 @@ public class BlackJackSvc {
         return gameState;
     }
 
-    private int calculateScore(List<PokerCard> hand) {
+    public int calculateScore(List<PokerCard> hand) {
         int total = 0;
         int aceCount = 0;
 
