@@ -1,7 +1,7 @@
 $(function () {
 
     /* ───── 상태 ───── */
-    let balance  = 1000;
+    let balance  = 0;
     let bet      = 100;
     let gameOver = false;
 
@@ -20,6 +20,12 @@ $(function () {
     const $standBtn       = $('#standBtn');
     const $retryBtn       = $('#retryBtn');
     const $backBtn        = $('#backBtn');
+
+    /* ───── 초기 포인트 조회 ───── */
+    $.get('/game/blackjack/balance', function (data) {
+        balance = data.balance;
+        $balanceDisplay.text(balance.toLocaleString());
+    });
 
     /* ───── 렌더링 ───── */
     function renderCard(card) {
@@ -54,8 +60,10 @@ $(function () {
         $playerScore.text(data.playerScore);
         $dealerScore.text(data.dealerScore != null ? data.dealerScore : '?');
         $betDisplay.text(bet.toLocaleString());
-        $balanceDisplay.text(balance.toLocaleString());
         $deckCount.text('남은 카드: ' + data.deckCount);
+
+        balance = data.balance;
+        $balanceDisplay.text(balance.toLocaleString());
     }
 
     function setMessage(msg) {
@@ -85,24 +93,12 @@ $(function () {
         'PUSH':             function () { return '🤝 무승부! 베팅 금액 반환'; }
     };
 
-    function settle(result) {
-        if (result === 'PLAYER_BLACKJACK') {
-            balance += Math.floor(bet * 2.5);
-        } else if (result === 'PLAYER_WIN') {
-            balance += bet * 2;
-        } else if (result === 'PUSH') {
-            balance += bet;
-        }
-        $balanceDisplay.text(balance.toLocaleString());
-    }
-
     function handleResponse(data) {
         updateUI(data);
 
         if (data.status === 'FINISHED') {
             gameOver = true;
             toggleActions(false);
-            settle(data.result);
 
             var msgFn = RESULT_MSGS[data.result];
             setMessage(msgFn ? msgFn() : data.result);
@@ -130,7 +126,6 @@ $(function () {
             alert('잔액이 부족합니다!');
             return;
         }
-        balance -= bet;
         gameOver = false;
 
         apiPost('/game/blackjack/start', { betAmount: bet }, function (data) {
@@ -181,19 +176,11 @@ $(function () {
 
     // 다시하기 (같은 베팅으로 바로 시작)
     $retryBtn.on('click', function () {
-        if (balance <= 0) {
-            balance = 1000;
-            alert('잔액이 부족하여 1,000으로 초기화되었습니다.');
-        }
         startGame();
     });
 
     // 돌아가기 (시작 화면으로)
     $backBtn.on('click', function () {
-        if (balance <= 0) {
-            balance = 1000;
-            alert('잔액이 부족하여 1,000으로 초기화되었습니다.');
-        }
         $overlay.removeClass('hidden');
         $board.addClass('is-hidden');
     });

@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import playground.enums.BlackJackResult;
 import playground.enums.BlackJackStatus;
 import playground.model.entity.plain.PokerCard;
+import playground.model.entity.plain.User;
 import playground.model.repository.PokerCardRepository;
+import playground.model.repository.UserRepository;
+import playground.utils.UsetUtil;
 
 import java.util.*;
 
@@ -15,6 +18,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class BlackJackSvc {
     private final PokerCardRepository repo;
+    private final UserRepository userRepository;
 
     private Queue<PokerCard> getDeckWithoutJoker() {
         List<PokerCard> cards = repo.findByRankNot(0); // 조커 빼고 가져오기
@@ -26,6 +30,9 @@ public class BlackJackSvc {
     }
 
     public BlackJackGameState startGame(int betAmount) {
+        // 베팅 차감
+        UsetUtil.deductPoint(betAmount);
+
         Queue<PokerCard> deck = getDeckWithoutJoker();
 
         List<PokerCard> playerHand = new ArrayList<>();
@@ -41,6 +48,11 @@ public class BlackJackSvc {
 
         gameState = checkGameState(gameState);
 
+        // 오프닝에서 바로 끝난 경우 (블랙잭 등) 정산
+        if (gameState.getStatus() == BlackJackStatus.FINISHED) {
+            settle(gameState);
+        }
+
         return gameState;
     }
 
@@ -51,6 +63,11 @@ public class BlackJackSvc {
 
         gameState.getPlayerHand().add(gameState.getDeck().poll());
         gameState = checkGameState(gameState);
+
+        // 버스트로 끝난 경우 정산
+        if (gameState.getStatus() == BlackJackStatus.FINISHED) {
+            settle(gameState);
+        }
 
         return gameState;
     }
@@ -68,6 +85,7 @@ public class BlackJackSvc {
         }
 
         gameState = resolveGame(gameState);
+        settle(gameState);
 
         return gameState;
     }
@@ -98,6 +116,28 @@ public class BlackJackSvc {
         }
 
         return gameState;
+    }
+
+    private void settle(BlackJackGameState gameState) {
+        int bet = gameState.getBetAmount();
+        BlackJackResult result = gameState.getResult();
+
+        switch (result) {
+            case PLAYER_BLACKJACK -> UsetUtil.addPoint((int) (bet * 2.5));
+            case PLAYER_WIN       -> UsetUtil.addPoint(bet * 2);
+            case PUSH             -> UsetUtil.addPoint(bet);
+            // DEALER_WIN, DEALER_BLACKJACK → 이미 차감됨
+            default -> {}
+        }
+
+        savePoint();
+    }
+
+    private void savePoint() {
+        User user = UsetUtil.getUser();
+        if (user != null) {
+            userRepository.save(user);
+        }
     }
 
     private BlackJackGameState checkGameState(BlackJackGameState gameState) {

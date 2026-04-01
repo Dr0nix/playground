@@ -61,6 +61,15 @@ public class User extends AuditableEntity implements UserDetails {
         this.modifiedBy = modifiedBy;
     }
 
+    public void addPoint(int amount) {
+        this.userPoint = (this.userPoint == null ? 0 : this.userPoint) + amount;
+    }
+
+    public void deductPoint(int amount) {
+        this.userPoint = (this.userPoint == null ? 0 : this.userPoint) - amount;
+        if (this.userPoint < 0) this.userPoint = 0;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

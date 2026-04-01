@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import playground.enums.BlackJackStatus;
 import playground.model.entity.plain.PokerCard;
+import playground.utils.UsetUtil;
 
 import java.util.*;
 
@@ -22,9 +23,18 @@ public class BlackJackCtl {
     private final BlackJackSvc svc;
     private static final String SESSION_KEY = "blackjackState";
 
+    @GetMapping("/balance")
+    public ResponseEntity<?> getBalance() {
+        return new ResponseEntity<>(Map.of("balance", UsetUtil.getUserPoint()), HttpStatus.OK);
+    }
+
     @PostMapping("/start")
     public ResponseEntity<?> startGame(@RequestBody Map<String, Integer> body, HttpSession session) {
         int betAmount = body.getOrDefault("betAmount", 100);
+
+        if (UsetUtil.getUserPoint() < betAmount) {
+            return new ResponseEntity<>(Map.of("error", "포인트가 부족합니다."), HttpStatus.BAD_REQUEST);
+        }
 
         BlackJackGameState state = svc.startGame(betAmount);
         session.setAttribute(SESSION_KEY, state);
@@ -90,6 +100,7 @@ public class BlackJackCtl {
         res.put("status", state.getStatus());
         res.put("result", state.getResult());
         res.put("betAmount", state.getBetAmount());
+        res.put("balance", UsetUtil.getUserPoint());
 
         return res;
     }
