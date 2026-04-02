@@ -8,9 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import playground.model.dto.NoticeReqDto;
 import playground.model.dto.NoticeResDto;
 import playground.model.entity.plain.Notice;
 import playground.model.repository.NoticeRepository;
+import playground.utils.UsetUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +40,29 @@ public class NoticeSvc {
         ));
 
         return result;
+    }
+
+    @Transactional
+    public NoticeResDto createNotice(NoticeReqDto req) {
+        Notice ntc = Notice.builder()
+                .title(req.getTitle())
+                .content(req.getContent())
+                .pinned(req.isPinYn())
+                .regUserNm(UsetUtil.getLoginUserName())
+                .regUserId(UsetUtil.getLoginUserId())
+                .build();
+
+        ntcRepo.save(ntc);
+
+        return new NoticeResDto(
+                ntc.getNtcId(),
+                ntc.getTitle(),
+                ntc.getContent(),
+                ntc.isPinned(),
+                ntc.getViewCount(),
+                ntc.getRegUserNm(),
+                ntc.getRegDttm()
+        );
     }
 
     @Transactional

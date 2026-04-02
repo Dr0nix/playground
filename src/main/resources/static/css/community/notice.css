@@ -3,7 +3,7 @@
 
 /* ===== 공지사항 공통 ===== */
 .notice-page {
-    max-width: 860px;
+    max-width: 1060px;
     margin: 0 auto;
 }
 
@@ -85,13 +85,29 @@
     font-size: 13px;
 }
 
+/* 목록 하단 (페이징 + 글쓰기) */
+.ntc-list-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+.ntc-write-btn {
+    position: absolute;
+    right: 0;
+    width: auto !important;
+    padding: 10px 22px !important;
+    font-size: 13px;
+}
+
 /* 페이징 */
 .ntc-paging {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
-    margin-top: 20px;
 }
 
 .ntc-paging button {
@@ -167,4 +183,48 @@
 .ntc-detail-actions .btn {
     width: auto;
     padding: 10px 24px;
+}
+
+/* ===== 작성 ===== */
+.ntc-write-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, .06);
+}
+
+.ntc-write-field {
+    margin-top: 16px;
+}
+
+.ntc-write-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.ntc-write-label input[type="checkbox"] {
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.ntc-write-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.ntc-write-actions .btn {
+    width: auto;
+    padding: 10px 28px;
+}
+
+/* Toast UI Editor 높이 */
+#editor .toastui-editor-defaultUI {
+    border-radius: 10px;
+    border-color: var(--border);
 }

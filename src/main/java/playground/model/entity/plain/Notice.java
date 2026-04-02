@@ -1,6 +1,7 @@
 package playground.model.entity.plain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,6 +47,15 @@ public class Notice {
 
     @Column(name = "mod_dttm")
     private LocalDateTime modDttm = LocalDateTime.now();
+
+    @Builder
+    public Notice(String title, String content, boolean pinned, String regUserNm, Long regUserId) {
+        this.title = title;
+        this.content = content;
+        this.pinned = pinned;
+        this.regUserNm = regUserNm;
+        this.regUserId = regUserId;
+    }
 
     public void incrementViewCount() {
         this.viewCount = (this.viewCount == null ? 0L : this.viewCount) + 1;

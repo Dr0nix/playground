@@ -1,16 +1,20 @@
 package playground.apps.community;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import playground.model.dto.NoticeReqDto;
 import playground.model.dto.NoticeResDto;
+import playground.utils.UsetUtil;
 
+import java.util.Map;
+
+@Tag(name = "Notice", description = "공지사항 API")
 @Controller
 @RequestMapping("/comm/ntc")
 @Slf4j
@@ -33,5 +37,19 @@ public class NoticeCtl {
             @PathVariable Long ntcId
     ) {
         return ResponseEntity.ok(svc.getSingleNotice(ntcId));
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createNotice(@RequestBody NoticeReqDto req) {
+        if (!isAdmin()) {
+            return new ResponseEntity<>(Map.of("error", "관리자만 작성할 수 있습니다."), HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(svc.createNotice(req), HttpStatus.CREATED);
+    }
+
+    private boolean isAdmin() {
+        Long userId = UsetUtil.getLoginUserId();
+        return userId != null && userId == 1L;
     }
 }

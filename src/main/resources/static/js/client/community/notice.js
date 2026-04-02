@@ -2,11 +2,30 @@ $(function () {
 
     var currentPage = 0;
     var pageSize = 10;
+    var editor = null;
 
     var $listView   = $('#listView');
     var $detailView = $('#detailView');
+    var $writeView  = $('#writeView');
     var $body       = $('#noticeBody');
     var $paging     = $('#paging');
+
+    var loginUserId = parseInt($('#loginUserId').val()) || 0;
+    var isAdmin     = loginUserId === 1;
+
+    // admin이면 글쓰기 버튼 표시
+    if (isAdmin) {
+        console.log('admin!')
+        $('#writeBtn').removeClass('hidden');
+    }
+
+    /* ───── 화면 전환 ───── */
+    function showView(viewId) {
+        $listView.addClass('hidden');
+        $detailView.addClass('hidden');
+        $writeView.addClass('hidden');
+        $(viewId).removeClass('hidden');
+    }
 
     /* ───── 목록 조회 ───── */
     function loadList(page) {
@@ -71,10 +90,65 @@ $(function () {
             $('#detailWriter').text(data.regUserNm);
             $('#detailDate').text(formatDate(data.regDttm));
             $('#detailViews').text(data.viewCount || 0);
-            $('#detailContent').text(data.content || '');
+            $('#detailContent').html(data.content || '');
 
-            $listView.addClass('hidden');
-            $detailView.removeClass('hidden');
+            showView('#detailView');
+        });
+    }
+
+    /* ───── 작성 ───── */
+    function initEditor() {
+        if (editor) return;
+
+        editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '400px',
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical',
+            placeholder: '내용을 입력하세요...',
+            toolbarItems: [
+                ['heading', 'bold', 'italic', 'strike'],
+                ['hr', 'quote'],
+                ['ul', 'ol'],
+                ['table', 'image', 'link'],
+                ['code', 'codeblock']
+            ]
+        });
+    }
+
+    function openWriteView() {
+        initEditor();
+        $('#ntcTitleInput').val('');
+        $('#ntcPinInput').prop('checked', false);
+        editor.reset();
+        showView('#writeView');
+    }
+
+    function submitNotice() {
+        var title = $('#ntcTitleInput').val().trim();
+        var content = editor.getHTML();
+        var pinYn = $('#ntcPinInput').is(':checked');
+
+        if (!title) {
+            alert('제목을 입력하세요.');
+            $('#ntcTitleInput').focus();
+            return;
+        }
+
+        $.ajax({
+            url: '/comm/ntc',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ title: title, content: content, pinYn: pinYn }),
+            success: function () {
+                alert('공지사항이 등록되었습니다.');
+                showView('#listView');
+                loadList(0);
+            },
+            error: function (xhr) {
+                var msg = xhr.responseJSON ? xhr.responseJSON.error : '등록에 실패했습니다.';
+                alert(msg);
+            }
         });
     }
 
@@ -109,10 +183,20 @@ $(function () {
 
     // 목록으로 돌아가기
     $('#backToListBtn').on('click', function () {
-        $detailView.addClass('hidden');
-        $listView.removeClass('hidden');
+        showView('#listView');
         loadList(currentPage);
     });
+
+    // 글쓰기 버튼
+    $('#writeBtn').on('click', openWriteView);
+
+    // 작성 취소
+    $('#cancelWriteBtn').on('click', function () {
+        showView('#listView');
+    });
+
+    // 등록
+    $('#submitWriteBtn').on('click', submitNotice);
 
     /* ───── 초기 로드 ───── */
     loadList(0);
