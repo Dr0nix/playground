@@ -24,4 +24,18 @@ public class UsetUtil {
     public static String getLoginUserName() {
         return Objects.requireNonNull(getUser()).getUserNm();
     }
+
+    public static int getUserPoint() {
+        User user = getUser();
+        if (user == null || user.getUserPoint() == null) return 0;
+        return user.getUserPoint();
+    }
+
+    public static void addPoint(int amount) {
+        Objects.requireNonNull(getUser()).addPoint(amount);
+    }
+
+    public static void deductPoint(int amount) {
+        Objects.requireNonNull(getUser()).deductPoint(amount);
+    }
 }

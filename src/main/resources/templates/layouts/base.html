@@ -15,9 +15,13 @@
 <div class="layout">
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-    <main class="main" layout:fragment="content">
-        <div class="card">기본 레이아웃</div>
-    </main>
+    <div class="main-wrap">
+        <div th:replace="~{fragments/userInfo :: userInfo}"></div>
+
+        <main class="main" layout:fragment="content">
+            <div class="card">기본 레이아웃</div>
+        </main>
+    </div>
 </div>
 
 <script th:src="@{/js/common/sidebar.js}"></script>

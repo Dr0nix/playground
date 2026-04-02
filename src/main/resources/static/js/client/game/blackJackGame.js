@@ -1,0 +1,218 @@
+$(function () {
+
+    /* ───── 상태 ───── */
+    let balance  = 0;
+    let bet      = 100;
+    let gameOver = false;
+
+    /* ───── DOM 캐시 ───── */
+    const $overlay        = $('#startOverlay');
+    const $board          = $('#gameBoard');
+    const $playerCards    = $('#playerCards');
+    const $dealerCards    = $('#dealerCards');
+    const $playerScore    = $('#playerScore');
+    const $dealerScore    = $('#dealerScore');
+    const $betDisplay     = $('#betDisplay');
+    const $balanceDisplay = $('#balanceDisplay');
+    const $deckCount      = $('#deckCount');
+    const $message        = $('#gameMessage');
+    const $hitBtn         = $('#hitBtn');
+    const $standBtn       = $('#standBtn');
+    const $retryBtn       = $('#retryBtn');
+    const $backBtn        = $('#backBtn');
+
+    /* ───── 초기 포인트 조회 ───── */
+    $.get('/game/blackjack/balance', function (data) {
+        balance = data.balance;
+        $balanceDisplay.text(balance.toLocaleString());
+    });
+
+    /* ───── 렌더링 ───── */
+    function buildCardHtml(card, faceDown) {
+        var cls = 'playing-card' + (faceDown ? ' is-face-down' : '');
+        var imgSrc = '/img/pokerCard/' + card.code + '.png';
+
+        return '<div class="' + cls + '">' +
+                   '<div class="playing-card-inner">' +
+                       '<div class="playing-card-front">' +
+                           '<img src="' + imgSrc + '" alt="' + card.code + '">' +
+                       '</div>' +
+                       '<div class="playing-card-back">' +
+                           '<img src="/img/pokerCard/BACK.png" alt="back">' +
+                       '</div>' +
+                   '</div>' +
+               '</div>';
+    }
+
+    /**
+     * 기존 카드는 유지, 새 카드만 append + 애니메이션
+     * role: 'dealer' | 'player' (애니메이션 방향 결정)
+     */
+    function renderHand($container, cards, role, baseDelay) {
+        var existing = $container.children().length;
+
+        // 기존 카드 중 뒤집힌 카드 공개 처리
+        for (var i = 0; i < existing && i < cards.length; i++) {
+            var $el = $container.children().eq(i);
+            if (!cards[i].faceDown && $el.hasClass('is-face-down')) {
+                $el.removeClass('is-face-down');
+            }
+        }
+
+        // 새 카드만 추가
+        var newCards = cards.slice(existing);
+        var animClass = role === 'dealer' ? 'is-dealt-dealer' : 'is-dealt-player';
+
+        newCards.forEach(function (card, idx) {
+            var html = buildCardHtml(card, card.faceDown);
+            var $card = $(html);
+            $container.append($card);
+
+            var delay = baseDelay + idx * 150;
+            setTimeout(function () {
+                $card.addClass(animClass);
+            }, delay);
+        });
+
+        return newCards.length;
+    }
+
+    function updateUI(data) {
+        var dealerNew = renderHand($dealerCards, data.dealerHand, 'dealer', 0);
+        renderHand($playerCards, data.playerHand, 'player', dealerNew * 150);
+
+        $playerScore.text(data.playerScore);
+        $dealerScore.text(data.dealerScore != null ? data.dealerScore : '?');
+        $betDisplay.text(bet.toLocaleString());
+        $deckCount.text('남은 카드: ' + data.deckCount);
+
+        balance = data.balance;
+        $balanceDisplay.text(balance.toLocaleString());
+    }
+
+    function setMessage(msg) {
+        $message.html(msg);
+    }
+
+    function toggleActions(playing) {
+        if (playing) {
+            $hitBtn.removeClass('hidden');
+            $standBtn.removeClass('hidden');
+            $retryBtn.addClass('hidden');
+            $backBtn.addClass('hidden');
+        } else {
+            $hitBtn.addClass('hidden');
+            $standBtn.addClass('hidden');
+            $retryBtn.removeClass('hidden');
+            $backBtn.removeClass('hidden');
+        }
+    }
+
+    /* ───── 결과 처리 ───── */
+    var RESULT_MSGS = {
+        'PLAYER_BLACKJACK': function () { return '🂡 블랙잭! +' + Math.floor(bet * 2.5).toLocaleString(); },
+        'PLAYER_WIN':       function () { return '🎉 승리! +' + (bet * 2).toLocaleString(); },
+        'DEALER_WIN':       function () { return '😢 패배! -' + bet.toLocaleString(); },
+        'DEALER_BLACKJACK': function () { return '💀 딜러 블랙잭! -' + bet.toLocaleString(); },
+        'PUSH':             function () { return '🤝 무승부! 베팅 금액 반환'; }
+    };
+
+    function handleResponse(data) {
+        updateUI(data);
+
+        if (data.status === 'FINISHED') {
+            gameOver = true;
+            toggleActions(false);
+
+            var msgFn = RESULT_MSGS[data.result];
+            setMessage(msgFn ? msgFn() : data.result);
+        }
+    }
+
+    /* ───── API 호출 ───── */
+    function apiPost(url, body, callback) {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            contentType: 'application/json',
+            data: body ? JSON.stringify(body) : '{}',
+            success: callback,
+            error: function (xhr) {
+                var msg = xhr.responseJSON ? xhr.responseJSON.error : '서버 오류가 발생했습니다.';
+                alert(msg);
+            }
+        });
+    }
+
+    /* ───── 게임 흐름 ───── */
+    function startGame() {
+        if (bet > balance) {
+            alert('잔액이 부족합니다!');
+            return;
+        }
+        gameOver = false;
+
+        // 보드 보이기 전에 카드 비우기
+        $dealerCards.empty();
+        $playerCards.empty();
+
+        apiPost('/game/blackjack/start', { betAmount: bet }, function (data) {
+            $overlay.addClass('hidden');
+            $board.removeClass('is-hidden');
+            toggleActions(true);
+            setMessage('히트 또는 스탠드를 선택하세요');
+
+            // 빈 보드가 보인 후 카드 딜링 시작
+            setTimeout(function () {
+                handleResponse(data);
+            }, 50);
+        });
+    }
+
+    function hit() {
+        if (gameOver) return;
+
+        apiPost('/game/blackjack/hit', null, function (data) {
+            handleResponse(data);
+
+            if (data.status !== 'FINISHED') {
+                setMessage('히트 또는 스탠드를 선택하세요');
+            }
+        });
+    }
+
+    function stand() {
+        if (gameOver) return;
+
+        apiPost('/game/blackjack/stand', null, function (data) {
+            handleResponse(data);
+        });
+    }
+
+    /* ───── 이벤트 바인딩 ───── */
+
+    // 칩 선택
+    $('#chipList').on('click', '.bet-chip', function () {
+        $('.bet-chip').removeClass('is-selected');
+        $(this).addClass('is-selected');
+        bet = parseInt($(this).data('bet'));
+    });
+
+    // 시작
+    $('#startBtn').on('click', startGame);
+
+    // 히트 / 스탠드
+    $hitBtn.on('click', hit);
+    $standBtn.on('click', stand);
+
+    // 다시하기 (같은 베팅으로 바로 시작)
+    $retryBtn.on('click', function () {
+        startGame();
+    });
+
+    // 돌아가기 (시작 화면으로)
+    $backBtn.on('click', function () {
+        $overlay.removeClass('hidden');
+        $board.addClass('is-hidden');
+    });
+});

@@ -26,7 +26,49 @@ a{ color:var(--accent); }
 
 /* ===== Layout (공통 레이아웃) ===== */
 .layout{display:flex; min-height:100vh}
+.main-wrap{flex:1; display:flex; flex-direction:column; min-width:0}
 .main{flex:1; padding:28px}
+
+/* ===== User Info (우상단) ===== */
+.user-info{
+    display:flex;
+    flex-direction:column;
+    align-self:flex-end;
+    margin:14px 20px 0 0;
+    padding:10px 16px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.04);
+}
+.user-info-name{
+    font-size:14px;
+    font-weight:800;
+    color:var(--text);
+}
+.user-info-sub{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:2px;
+}
+.user-info-divider{
+    margin:0 5px;
+    color:var(--border);
+}
+.user-info-point-label{
+    display:inline-block;
+    width:16px;
+    height:16px;
+    line-height:16px;
+    text-align:center;
+    font-size:10px;
+    font-weight:800;
+    color:#fff;
+    background:var(--accent);
+    border-radius:4px;
+    margin-right:3px;
+    vertical-align:middle;
+}
 .card{
     width:min(520px,92vw);
     background:var(--panel);

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/base}">
+
+<head>
+    <meta charset="utf-8">
+    <title>블랙잭</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/game-common.css}">
+</head>
+
+<body>
+<section class="main blackjack-page" layout:fragment="content">
+
+    <div class="blackjack-wrap">
+
+        <!-- ============ 시작 오버레이 ============ -->
+        <div class="bj-start-overlay" id="startOverlay">
+            <div class="card bj-start-card">
+                <p class="bj-kicker">Card Game</p>
+                <h1 class="bj-title">Black Jack</h1>
+                <p class="bj-subtitle">딜러를 이겨 칩을 모아보세요!</p>
+
+                <div class="bj-bet-panel">
+                    <div class="bj-bet-label">베팅 금액</div>
+                    <div class="bj-chip-list" id="chipList">
+                        <button class="bet-chip" type="button" data-bet="10">10</button>
+                        <button class="bet-chip" type="button" data-bet="50">50</button>
+                        <button class="bet-chip is-selected" type="button" data-bet="100">100</button>
+                        <button class="bet-chip" type="button" data-bet="500">500</button>
+                        <button class="bet-chip" type="button" data-bet="1000">1,000</button>
+                    </div>
+                </div>
+
+                <div class="bj-start-actions">
+                    <button id="startBtn" class="btn primary" type="button">게임 시작</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ 게임 보드 ============ -->
+        <div class="blackjack-board is-hidden" id="gameBoard">
+
+            <!-- 상단 정보 바 -->
+            <div class="bj-topbar">
+                <div>
+                    <p class="bj-table-label">Black Jack</p>
+                    <h2 class="bj-table-title">PLAYGROWN'D</h2>
+                </div>
+                <div class="bj-topbar-right">
+                    <div class="bj-info-pill">
+                        <span class="bj-info-key">베팅</span>
+                        <strong id="betDisplay">100</strong>
+                    </div>
+                    <div class="bj-info-pill">
+                        <span class="bj-info-key">잔액</span>
+                        <strong id="balanceDisplay">1,000</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 딜러 영역 -->
+            <div class="bj-area">
+                <div class="bj-area-head">
+                    <div>
+                        <p class="bj-role">Dealer</p>
+                        <h3 class="bj-name">딜러</h3>
+                    </div>
+                    <div class="bj-score-box">
+                        <span class="bj-score-label">점수</span>
+                        <strong id="dealerScore">?</strong>
+                    </div>
+                </div>
+                <div class="bj-card-row" id="dealerCards">
+                    <!-- JS에서 카드 렌더링 -->
+                </div>
+            </div>
+
+            <!-- 중앙 패널 (메시지 + 덱) -->
+            <div class="bj-center-panel">
+                <div class="bj-message-box">
+                    <p class="bj-message-label">Status</p>
+                    <strong id="gameMessage">카드를 받으세요</strong>
+                </div>
+                <div class="bj-deck-box">
+                    <div class="playing-card deck-card is-ready">
+                        <div class="playing-card-inner">
+                            <div class="playing-card-front">
+                                <img th:src="@{/img/pokerCard/BACK.png}" alt="deck">
+                            </div>
+                        </div>
+                    </div>
+                    <span class="deck-count" id="deckCount">남은 카드: 52</span>
+                </div>
+            </div>
+
+            <!-- 플레이어 영역 -->
+            <div class="bj-area">
+                <div class="bj-area-head">
+                    <div>
+                        <p class="bj-role">Player</p>
+                        <h3 class="bj-name">플레이어</h3>
+                    </div>
+                    <div class="bj-score-box">
+                        <span class="bj-score-label">점수</span>
+                        <strong id="playerScore">0</strong>
+                    </div>
+                </div>
+                <div class="bj-card-row" id="playerCards">
+                    <!-- JS에서 카드 렌더링 -->
+                </div>
+            </div>
+
+            <!-- 액션 버튼 -->
+            <div class="bj-action-bar" id="actionBar">
+                <button id="hitBtn" class="btn primary" type="button">히트</button>
+                <button id="standBtn" class="btn secondary" type="button">스탠드</button>
+                <button id="retryBtn" class="btn primary hidden" type="button">다시하기</button>
+                <button id="backBtn" class="btn secondary hidden" type="button">돌아가기</button>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/common/utils.js}"></script>
+    <script th:src="@{/js/client/game/blackJackGame.js}"></script>
+</th:block>
+</body>
+</html>
