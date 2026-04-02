@@ -185,6 +185,16 @@
     padding: 10px 24px;
 }
 
+.btn.danger {
+    background: #fff;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.btn.danger:hover {
+    background: #fef2f2;
+}
+
 /* ===== 작성 ===== */
 .ntc-write-card {
     background: var(--panel);

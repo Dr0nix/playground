@@ -3,6 +3,8 @@ $(function () {
     var currentPage = 0;
     var pageSize = 10;
     var editor = null;
+    var editingNtcId = null; // null이면 작성, 값이 있으면 수정
+    var currentDetailId = null;
 
     var $listView   = $('#listView');
     var $detailView = $('#detailView');
@@ -13,10 +15,11 @@ $(function () {
     var loginUserId = parseInt($('#loginUserId').val()) || 0;
     var isAdmin     = loginUserId === 1;
 
-    // admin이면 글쓰기 버튼 표시
+    // admin이면 글쓰기/수정/삭제 버튼 표시
     if (isAdmin) {
-        console.log('admin!')
         $('#writeBtn').removeClass('hidden');
+        $('#editBtn').removeClass('hidden');
+        $('#deleteBtn').removeClass('hidden');
     }
 
     /* ───── 화면 전환 ───── */
@@ -86,17 +89,22 @@ $(function () {
     /* ───── 상세 조회 ───── */
     function loadDetail(ntcId) {
         $.get('/comm/ntc/' + ntcId, function (data) {
+            currentDetailId = ntcId;
+
             $('#detailTitle').text(data.title);
             $('#detailWriter').text(data.regUserNm);
             $('#detailDate').text(formatDate(data.regDttm));
             $('#detailViews').text(data.viewCount || 0);
             $('#detailContent').html(data.content || '');
 
+            // 수정 시 사용할 데이터 저장
+            $detailView.data('ntc', data);
+
             showView('#detailView');
         });
     }
 
-    /* ───── 작성 ───── */
+    /* ───── 작성 / 수정 ───── */
     function initEditor() {
         if (editor) return;
 
@@ -118,9 +126,25 @@ $(function () {
 
     function openWriteView() {
         initEditor();
+        editingNtcId = null;
+        $('#writeViewTitle').text('공지사항 작성');
+        $('#submitWriteBtn').text('등록');
         $('#ntcTitleInput').val('');
         $('#ntcPinInput').prop('checked', false);
         editor.reset();
+        showView('#writeView');
+    }
+
+    function openEditView() {
+        initEditor();
+        var data = $detailView.data('ntc');
+        editingNtcId = data.ntcId;
+
+        $('#writeViewTitle').text('공지사항 수정');
+        $('#submitWriteBtn').text('수정');
+        $('#ntcTitleInput').val(data.title);
+        $('#ntcPinInput').prop('checked', data.pinYn);
+        editor.setHTML(data.content || '');
         showView('#writeView');
     }
 
@@ -135,18 +159,58 @@ $(function () {
             return;
         }
 
+        var payload = JSON.stringify({ title: title, content: content, pinYn: pinYn });
+
+        if (editingNtcId) {
+            // 수정
+            $.ajax({
+                url: '/comm/ntc/' + editingNtcId,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: payload,
+                success: function () {
+                    alert('수정되었습니다.');
+                    loadDetail(editingNtcId);
+                },
+                error: function (xhr) {
+                    var msg = xhr.responseJSON ? xhr.responseJSON.error : '수정에 실패했습니다.';
+                    alert(msg);
+                }
+            });
+        } else {
+            // 작성
+            $.ajax({
+                url: '/comm/ntc',
+                type: 'POST',
+                contentType: 'application/json',
+                data: payload,
+                success: function () {
+                    alert('공지사항이 등록되었습니다.');
+                    showView('#listView');
+                    loadList(0);
+                },
+                error: function (xhr) {
+                    var msg = xhr.responseJSON ? xhr.responseJSON.error : '등록에 실패했습니다.';
+                    alert(msg);
+                }
+            });
+        }
+    }
+
+    /* ───── 삭제 ───── */
+    function deleteNotice() {
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+
         $.ajax({
-            url: '/comm/ntc',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ title: title, content: content, pinYn: pinYn }),
+            url: '/comm/ntc/' + currentDetailId,
+            type: 'DELETE',
             success: function () {
-                alert('공지사항이 등록되었습니다.');
+                alert('삭제되었습니다.');
                 showView('#listView');
-                loadList(0);
+                loadList(currentPage);
             },
             error: function (xhr) {
-                var msg = xhr.responseJSON ? xhr.responseJSON.error : '등록에 실패했습니다.';
+                var msg = xhr.responseJSON ? xhr.responseJSON.error : '삭제에 실패했습니다.';
                 alert(msg);
             }
         });
@@ -171,14 +235,12 @@ $(function () {
 
     // 행 클릭 → 상세
     $body.on('click', 'tr[data-id]', function () {
-        var ntcId = $(this).data('id');
-        loadDetail(ntcId);
+        loadDetail($(this).data('id'));
     });
 
     // 페이징
     $paging.on('click', 'button:not(:disabled)', function () {
-        var page = $(this).data('page');
-        loadList(page);
+        loadList($(this).data('page'));
     });
 
     // 목록으로 돌아가기
@@ -187,15 +249,25 @@ $(function () {
         loadList(currentPage);
     });
 
-    // 글쓰기 버튼
+    // 글쓰기
     $('#writeBtn').on('click', openWriteView);
 
-    // 작성 취소
+    // 수정
+    $('#editBtn').on('click', openEditView);
+
+    // 삭제
+    $('#deleteBtn').on('click', deleteNotice);
+
+    // 작성/수정 취소
     $('#cancelWriteBtn').on('click', function () {
-        showView('#listView');
+        if (editingNtcId) {
+            loadDetail(editingNtcId);
+        } else {
+            showView('#listView');
+        }
     });
 
-    // 등록
+    // 등록/수정 제출
     $('#submitWriteBtn').on('click', submitNotice);
 
     /* ───── 초기 로드 ───── */

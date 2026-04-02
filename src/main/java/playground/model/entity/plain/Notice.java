@@ -57,6 +57,16 @@ public class Notice {
         this.regUserId = regUserId;
     }
 
+    public void update(String title, String content, boolean pinned) {
+        this.title = title;
+        this.content = content;
+        this.pinned = pinned;
+    }
+
+    public void softDelete() {
+        this.visible = false;
+    }
+
     public void incrementViewCount() {
         this.viewCount = (this.viewCount == null ? 0L : this.viewCount) + 1;
     }

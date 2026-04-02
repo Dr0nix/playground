@@ -66,6 +66,32 @@ public class NoticeSvc {
     }
 
     @Transactional
+    public NoticeResDto updateNotice(Long ntcId, NoticeReqDto req) {
+        Notice ntc = ntcRepo.findById(ntcId)
+                .orElseThrow(() -> new RuntimeException("ntc not found"));
+
+        ntc.update(req.getTitle(), req.getContent(), req.isPinYn());
+
+        return new NoticeResDto(
+                ntc.getNtcId(),
+                ntc.getTitle(),
+                ntc.getContent(),
+                ntc.isPinned(),
+                ntc.getViewCount(),
+                ntc.getRegUserNm(),
+                ntc.getRegDttm()
+        );
+    }
+
+    @Transactional
+    public void deleteNotice(Long ntcId) {
+        Notice ntc = ntcRepo.findById(ntcId)
+                .orElseThrow(() -> new RuntimeException("ntc not found"));
+
+        ntc.softDelete();
+    }
+
+    @Transactional
     public NoticeResDto getSingleNotice(Long ntcId) {
         Notice ntc = ntcRepo.findById(ntcId)
                 .orElseThrow(() -> new RuntimeException("ntc not found"));

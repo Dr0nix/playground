@@ -61,13 +61,15 @@
             </div>
             <div class="ntc-detail-actions">
                 <button id="backToListBtn" class="btn secondary" type="button">목록으로</button>
+                <button id="editBtn" class="btn primary hidden" type="button">수정</button>
+                <button id="deleteBtn" class="btn danger hidden" type="button">삭제</button>
             </div>
         </div>
 
         <!-- ============ 작성 화면 ============ -->
         <div id="writeView" class="hidden">
             <div class="ntc-write-card">
-                <h2 class="ntc-title">공지사항 작성</h2>
+                <h2 class="ntc-title" id="writeViewTitle">공지사항 작성</h2>
 
                 <div class="ntc-write-field">
                     <label class="ntc-write-label" for="ntcTitleInput">제목</label>
