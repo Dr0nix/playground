@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import playground.model.dto.NoticeResDto;
 import playground.model.entity.plain.Notice;
 import playground.model.repository.NoticeRepository;
@@ -39,18 +40,21 @@ public class NoticeSvc {
         return result;
     }
 
+    @Transactional
     public NoticeResDto getSingleNotice(Long ntcId) {
-        NoticeResDto result =
-                ntcRepo.findById(ntcId).map(ntc -> new NoticeResDto(
-                        ntc.getNtcId(),
-                        ntc.getTitle(),
-                        ntc.isPinned(),
-                        ntc.getViewCount(),
-                        ntc.getRegUserNm(),
-                        ntc.getRegDttm()
-                ))
-                        .orElseThrow(() -> new RuntimeException("ntc not found"));
+        Notice ntc = ntcRepo.findById(ntcId)
+                .orElseThrow(() -> new RuntimeException("ntc not found"));
 
-        return result;
+        ntc.incrementViewCount();
+
+        return new NoticeResDto(
+                ntc.getNtcId(),
+                ntc.getTitle(),
+                ntc.getContent(),
+                ntc.isPinned(),
+                ntc.getViewCount(),
+                ntc.getRegUserNm(),
+                ntc.getRegDttm()
+        );
     }
 }

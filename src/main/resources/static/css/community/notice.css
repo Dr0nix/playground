@@ -1,0 +1,170 @@
+/* 유틸리티 */
+.hidden { display: none !important; }
+
+/* ===== 공지사항 공통 ===== */
+.notice-page {
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+/* ===== 목록 ===== */
+.ntc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.ntc-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+}
+
+.ntc-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.ntc-table th {
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    background: #faf9ff;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+.ntc-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+}
+
+.ntc-table tr:last-child td {
+    border-bottom: none;
+}
+
+.ntc-table tbody tr {
+    cursor: pointer;
+    transition: background .12s ease;
+}
+
+.ntc-table tbody tr:hover {
+    background: rgba(124, 58, 237, .04);
+}
+
+.ntc-row-title {
+    font-weight: 600;
+}
+
+.ntc-pin-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-right: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+    background: #f5f3ff;
+    border: 1px solid #e9e5ff;
+    border-radius: 6px;
+    vertical-align: middle;
+}
+
+.ntc-meta {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* 페이징 */
+.ntc-paging {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 20px;
+}
+
+.ntc-paging button {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .12s ease;
+}
+
+.ntc-paging button:hover {
+    background: #f5f3ff;
+    border-color: #c4b5fd;
+}
+
+.ntc-paging button.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.ntc-paging button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+/* ===== 상세 ===== */
+.ntc-detail {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 8px 20px rgba(124, 58, 237, .06);
+}
+
+.ntc-detail-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin: 0 0 12px;
+}
+
+.ntc-detail-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--muted);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.ntc-detail-content {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-line;
+    min-height: 120px;
+}
+
+.ntc-detail-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.ntc-detail-actions .btn {
+    width: auto;
+    padding: 10px 24px;
+}

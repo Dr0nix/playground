@@ -47,6 +47,10 @@ public class Notice {
     @Column(name = "mod_dttm")
     private LocalDateTime modDttm = LocalDateTime.now();
 
+    public void incrementViewCount() {
+        this.viewCount = (this.viewCount == null ? 0L : this.viewCount) + 1;
+    }
+
     @PrePersist
     public void onCreate() {
         this.regDttm = LocalDateTime.now();
