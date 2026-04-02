@@ -1,5 +1,6 @@
 package playground.apps.common;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import playground.model.dto.UserDTO;
 import playground.model.entity.plain.User;
 
+@Tag(name = "Signup", description = "회원가입 API")
 @Controller
 @RequiredArgsConstructor
 @Slf4j

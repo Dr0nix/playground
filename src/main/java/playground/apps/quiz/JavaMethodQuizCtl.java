@@ -1,5 +1,6 @@
 package playground.apps.quiz;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "JavaMethodQuiz", description = "자바 메서드 퀴즈 관련 API")
 @Controller
 @Slf4j
 @RequiredArgsConstructor

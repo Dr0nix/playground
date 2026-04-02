@@ -1,5 +1,6 @@
 package playground.apps.common;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import playground.utils.UsetUtil;
 
 import static playground.utils.ServletUtil.getClientIp;
 
+@Tag(name = "GotoPage", description = "화면/메뉴 이동 컨트롤러")
 @Controller
 @Slf4j
 @RequiredArgsConstructor

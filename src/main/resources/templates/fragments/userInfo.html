@@ -1,0 +1,11 @@
+<div th:fragment="userInfo" class="user-info" th:if="${loginUser != null}">
+    <div class="user-info-name">
+        <span th:text="${loginUser.userNickname != null ? loginUser.userNickname : loginUser.userNm}">닉네임</span>님
+    </div>
+    <div class="user-info-sub">
+        <span th:text="${loginUser.userEmail}">email@example.com</span>
+        <span class="user-info-divider">|</span>
+        <span class="user-info-point-label">P</span>
+        <span th:text="${loginUser.userPoint != null ? #numbers.formatInteger(loginUser.userPoint, 1, 'COMMA') : '0'}">0</span>
+    </div>
+</div>

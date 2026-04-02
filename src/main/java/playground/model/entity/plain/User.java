@@ -41,20 +41,33 @@ public class User extends AuditableEntity implements UserDetails {
     @Column(nullable = false)
     private String userPw;
 
+    @Column
+    private Integer userPoint;
+
     private Boolean useYn;
 
     @Builder
-    public User(Long userId, String userNm, String userNickname, String userEmail, String userPw, Boolean useYn, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
+    public User(Long userId, String userNm, String userNickname, String userEmail, String userPw, Integer userPoint, Boolean useYn, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
         this.userId = userId;
         this.userNm = userNm;
         this.userNickname = userNickname;
         this.userEmail = userEmail;
         this.userPw = userPw;
+        this.userPoint = userPoint;
         this.useYn = useYn;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.modifiedAt = modifiedAt;
         this.modifiedBy = modifiedBy;
+    }
+
+    public void addPoint(int amount) {
+        this.userPoint = (this.userPoint == null ? 0 : this.userPoint) + amount;
+    }
+
+    public void deductPoint(int amount) {
+        this.userPoint = (this.userPoint == null ? 0 : this.userPoint) - amount;
+        if (this.userPoint < 0) this.userPoint = 0;
     }
 
     @Override
