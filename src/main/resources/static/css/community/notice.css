@@ -170,8 +170,15 @@
     font-size: 15px;
     line-height: 1.75;
     color: var(--text);
-    white-space: pre-line;
     min-height: 120px;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.ntc-detail-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
 .ntc-detail-actions {
