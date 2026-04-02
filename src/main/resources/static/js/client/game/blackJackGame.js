@@ -28,9 +28,8 @@ $(function () {
     });
 
     /* ───── 렌더링 ───── */
-    function renderCard(card) {
-        var faceDown = card.faceDown;
-        var cls = 'playing-card is-dealt' + (faceDown ? ' is-face-down' : '');
+    function buildCardHtml(card, faceDown) {
+        var cls = 'playing-card' + (faceDown ? ' is-face-down' : '');
         var imgSrc = '/img/pokerCard/' + card.code + '.png';
 
         return '<div class="' + cls + '">' +
@@ -45,17 +44,42 @@ $(function () {
                '</div>';
     }
 
-    function renderHand($container, cards) {
-        var html = '';
-        cards.forEach(function (card) {
-            html += renderCard(card);
+    /**
+     * 기존 카드는 유지, 새 카드만 append + 애니메이션
+     * role: 'dealer' | 'player' (애니메이션 방향 결정)
+     */
+    function renderHand($container, cards, role, baseDelay) {
+        var existing = $container.children().length;
+
+        // 기존 카드 중 뒤집힌 카드 공개 처리
+        for (var i = 0; i < existing && i < cards.length; i++) {
+            var $el = $container.children().eq(i);
+            if (!cards[i].faceDown && $el.hasClass('is-face-down')) {
+                $el.removeClass('is-face-down');
+            }
+        }
+
+        // 새 카드만 추가
+        var newCards = cards.slice(existing);
+        var animClass = role === 'dealer' ? 'is-dealt-dealer' : 'is-dealt-player';
+
+        newCards.forEach(function (card, idx) {
+            var html = buildCardHtml(card, card.faceDown);
+            var $card = $(html);
+            $container.append($card);
+
+            var delay = baseDelay + idx * 150;
+            setTimeout(function () {
+                $card.addClass(animClass);
+            }, delay);
         });
-        $container.html(html);
+
+        return newCards.length;
     }
 
     function updateUI(data) {
-        renderHand($playerCards, data.playerHand);
-        renderHand($dealerCards, data.dealerHand);
+        var dealerNew = renderHand($dealerCards, data.dealerHand, 'dealer', 0);
+        renderHand($playerCards, data.playerHand, 'player', dealerNew * 150);
 
         $playerScore.text(data.playerScore);
         $dealerScore.text(data.dealerScore != null ? data.dealerScore : '?');
@@ -128,13 +152,20 @@ $(function () {
         }
         gameOver = false;
 
+        // 보드 보이기 전에 카드 비우기
+        $dealerCards.empty();
+        $playerCards.empty();
+
         apiPost('/game/blackjack/start', { betAmount: bet }, function (data) {
             $overlay.addClass('hidden');
             $board.removeClass('is-hidden');
             toggleActions(true);
             setMessage('히트 또는 스탠드를 선택하세요');
 
-            handleResponse(data);
+            // 빈 보드가 보인 후 카드 딜링 시작
+            setTimeout(function () {
+                handleResponse(data);
+            }, 50);
         });
     }
 
