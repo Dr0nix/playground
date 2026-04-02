@@ -80,7 +80,7 @@ public class BlackJackSvc {
         gameState.setStatus(BlackJackStatus.DEALER_TURN);
 
         // 딜러: 17 미만이면 계속 히트
-        while (calculateScore(gameState.getDealerHand()) < 17) {
+        while (calculateScore(gameState.getDealerHand()) < 17 || calculateScore(gameState.getDealerHand()) < calculateScore(gameState.getPlayerHand())) {
             gameState.getDealerHand().add(gameState.getDeck().poll());
         }
 
